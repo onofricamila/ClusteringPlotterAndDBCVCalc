@@ -28,5 +28,8 @@ for d in data:
     # add DBCV score to axes
     plt.text(x=.99, y=.93, s="DBCV: " + str(index), fontsize=10, transform=plt.gca().transAxes,
             horizontalalignment='right')
-
+    # TODO: FOOTER WITH ALGO CONFIG?
+    # plt.annotate('Something', (0, 0), (0, -20), xycoords='axes fraction', textcoords='offset points', va='top')
+    # TODO: SAVE FIG IN PARAMETRIZED FOLDER
+    # plt.savefig('test');
     plt.show()
