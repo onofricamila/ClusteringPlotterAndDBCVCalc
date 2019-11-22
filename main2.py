@@ -19,12 +19,14 @@ for d in data:
     classes = np.asarray(labels, dtype=int) # tuple to array (for the metric) IMPORTANT: also needed dtype=int instead of float
     try:
         score = validity_index(X=X, labels=classes, metric=euclidean, per_cluster_scores=True, )
+        index = round(score[0], 2)
     except ValueError as e:
         print(' Failed to calculate DBCV Index: ' + str(e))
         score = None
+        index = "---"
     print(" --> score: ", score)
     # add DBCV score to axes
-    plt.text(x=.99, y=.80, s="DBCV " , fontsize=10, transform=plt.gca().transAxes,
+    plt.text(x=.99, y=.93, s="DBCV: " + str(index), fontsize=10, transform=plt.gca().transAxes,
             horizontalalignment='right')
 
     plt.show()
