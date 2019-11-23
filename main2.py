@@ -9,7 +9,8 @@ resourcesFolder = "/home/camila/Desktop/TESIS/Github_Repo_TestingMOAOnlineCluste
 
 data = ndarraysFormCsvsGenerator(resourcesFolder);
 
-for d in data:
+for i in range(len(data)):
+    d = data[i]
     res = d['res']
     time = d['time']
     x, y, labels = zip(*res)
