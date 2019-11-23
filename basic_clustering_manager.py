@@ -10,25 +10,24 @@ class BasicClusteringManager:
       self.microClustersFolder = ""
 
   def main(self):
-      data = ndarraysFormCsvsGenerator(self.microClustersFolder)
-      for j in range(len(data)):
-          d = data[j]
-          res = d['res']
+      microClustersByTime = ndarraysFormCsvsGenerator(self.microClustersFolder)
+      for j in range(len(microClustersByTime)):
+          d = microClustersByTime[j]
+          currentMicroClusters = d['res']
           time = d['time']
           fig = plt.gcf()
           ax = plt.gca()
-
-          self.fillFigure(res, ax, j)
-          index = self.calculateDBCV(res)
+          self.fillFigure(currentMicroClusters, ax, j)
+          index = self.calculateDBCV(currentMicroClusters, j)
           self.plotFig(ax, index)
 
 
-  def fillFigure(self, res, ax):
+  def fillFigure(self, currentMicroClusters, ax):
       pass
 
 
-  def calculateDBCV(self, res):
-      X, labels = self.xAndLabels(res)
+  def calculateDBCV(self, currentMicroClusters, j):
+      X, labels = self.xAndLabels(currentMicroClusters, j)
       try:
           score = validity_index(X=X, labels=labels, metric=euclidean, per_cluster_scores=True, )
           index = round(score[0], 2)
