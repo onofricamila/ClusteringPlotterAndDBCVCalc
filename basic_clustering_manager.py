@@ -6,20 +6,19 @@ import matplotlib.pyplot as plt
 
 class BasicClusteringManager:
   def __init__(self):
-      self.resourcesFolder = "/home/camila/Desktop/TESIS/Github_Repo_TestingMOAOnlineClustering/src/resources/denstream/"
-      self.mircoClustersFolder =  self.resourcesFolder
-
+      self.resourcesFolder = "/home/camila/Desktop/TESIS/Github_Repo_TestingMOAOnlineClustering/src/resources/"
+      self.microClustersFolder = ""
 
   def main(self):
-      data = ndarraysFormCsvsGenerator(self.mircoClustersFolder);
-      for i in range(len(data)):
-          d = data[i]
+      data = ndarraysFormCsvsGenerator(self.microClustersFolder)
+      for j in range(len(data)):
+          d = data[j]
           res = d['res']
           time = d['time']
           fig = plt.gcf()
           ax = plt.gca()
 
-          self.fillFigure(res, ax)
+          self.fillFigure(res, ax, j)
           index = self.calculateDBCV(res)
           self.plotFig(ax, index)
 

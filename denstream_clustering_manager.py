@@ -3,7 +3,13 @@ import numpy as np
 from basic_clustering_manager import BasicClusteringManager
 
 class DenstreamClusteringManager(BasicClusteringManager):
-    def fillFigure(self, res, ax):
+    def __init__(self):
+        super().__init__()
+        self.ownResourcesFolder = self.resourcesFolder + "denstream/"
+        self.microClustersFolder = self.ownResourcesFolder
+
+
+    def fillFigure(self, res, ax, j):
         x, y, labels = zip(*res)
         ax.scatter(x, y, s=10, c=labels, cmap="nipy_spectral")
 
