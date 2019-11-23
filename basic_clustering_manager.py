@@ -1,3 +1,4 @@
+import numpy as np
 from scipy.spatial.distance import euclidean
 
 from DBCV import validity_index
@@ -26,6 +27,12 @@ class BasicClusteringManager:
       pass
 
 
+  def xAndLabels(self, currentMicroClusters, j):
+    X = np.delete(currentMicroClusters, 2, 1)  # delete 3rd column of C
+    classes = self.getLabels(currentMicroClusters, j)
+    return (X, classes)
+
+
   def calculateDBCV(self, currentMicroClusters, j):
       X, labels = self.xAndLabels(currentMicroClusters, j)
       try:
@@ -51,6 +58,10 @@ class BasicClusteringManager:
       ax.set_ybound(lower=-2, upper=2)
       ax.grid()
       plt.show()
+
+
+  def getLabels(self, currentMicroClusters, j):
+      pass
 
 
 
