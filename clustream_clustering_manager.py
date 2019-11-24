@@ -28,7 +28,7 @@ class ClustreamClusteringManager(BasicClusteringManager):
         x2, y2, radius2 = zip(*currMacroClusters)
         # plot all the clusters that correspond to the same time
         for macroIndex in range(len(x2)):
-            macroCircle = plt.Circle((x2[macroIndex], y2[macroIndex]), radius2[macroIndex], color='red', fill=False)
+            macroCircle = plt.Circle((x2[macroIndex], y2[macroIndex]), radius2[macroIndex], color='red', fill=False, alpha=0.5)
             ax.add_patch(macroCircle)
 
 
