@@ -61,6 +61,7 @@ class BasicClusteringManager:
       ax.set_xbound(lower=-2, upper=2)  # TODO: |2| HARDCODED?
       ax.set_ybound(lower=-2, upper=2)
       ax.grid()
+      ax.set_aspect('equal', adjustable='box')
       f = plt.gcf()
       f.canvas.manager.window.showMaximized()
       plt.show()

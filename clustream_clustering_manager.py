@@ -42,20 +42,11 @@ class ClustreamClusteringManager(BasicClusteringManager):
             for macroIndex in range(len(currentMacroClusters)):
                 macro = currentMacroClusters[macroIndex]
                 macroCircle = Circle([macro[0], macro[1]], macro[2])
-                if self.microInsideMacro(macroCircle, microCircle):
+                if macroCircle.contains(microCircle):
                     labels[microIndex] = macroIndex  # macro index acts as label
                     break
         return np.asarray(labels)
 
-
-    def microInsideMacro(self, macroCircle, microCircle):
-        distance_squared = (macroCircle.get_center()[0] - microCircle.get_center()[0]) ** 2 + (
-                macroCircle.get_center()[1] - microCircle.get_center()[1]) ** 2
-        difference_squared = (microCircle.get_radius() - macroCircle.get_radius()) ** 2
-        diff = (difference_squared < distance_squared)
-        dist = (macroCircle.get_radius() > microCircle.get_radius())
-        result = diff and dist
-        return result
 
     def computeRadius(self, rad):
         if rad == 0:
