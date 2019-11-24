@@ -9,12 +9,12 @@ class DenstreamClusteringManager(BasicClusteringManager):
         self.microClustersFolder = self.ownResourcesFolder
 
 
-    def fillFigure(self, currentMicroClusters, ax, currMicroClustersIndex):
+    def fillFigure(self, currentMicroClusters, ax, currTimeIndex):
         x, y, labels = zip(*currentMicroClusters)
         ax.scatter(x, y, s=10, c=labels, cmap="nipy_spectral")
 
 
-    def getLabels(self, currentMicroClusters, currMicroClustersIndex):
+    def getLabels(self, currentMicroClusters, currTimeIndex):
         x, y, labels = zip(*currentMicroClusters)
         classes = np.asarray(labels, dtype=int)  # tuple to array (for the metric) IMPORTANT: also needed dtype=int instead of float
         return classes

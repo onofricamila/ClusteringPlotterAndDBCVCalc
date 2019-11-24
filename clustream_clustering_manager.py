@@ -13,17 +13,17 @@ class ClustreamClusteringManager(BasicClusteringManager):
         self.macroClustersFolder = self.ownResourcesFolder + "macro/"
 
 
-    def fillFigure(self, currentMicroClusters, ax, currMicroClustersIndex):
-        labels = self.getLabels(currentMicroClusters, currMicroClustersIndex)
+    def fillFigure(self, currentMicroClusters, ax, currTimeIndex):
+        labels = self.getLabels(currentMicroClusters, currTimeIndex)
         macro = ndarraysFormCsvsGenerator(self.macroClustersFolder)
         x, y, radius = zip(*currentMicroClusters)
         for microIndex in range(len(x)):
             rad = self.computeRadius(radius[microIndex])
-            color = self.chooseColor(labels[currMicroClustersIndex])
+            color = self.chooseColor(labels[microIndex])
             # plot micro cluster
             microCircle = plt.Circle((x[microIndex], y[microIndex]), rad, color=color, fill=False)
             ax.add_patch(microCircle)
-        currMacroClustersInfo = macro[currMicroClustersIndex]
+        currMacroClustersInfo = macro[currTimeIndex]
         currMacroClusters = currMacroClustersInfo['res']
         x2, y2, radius2 = zip(*currMacroClusters)
         # plot all the clusters that correspond to the same time
@@ -32,13 +32,13 @@ class ClustreamClusteringManager(BasicClusteringManager):
             ax.add_patch(macroCircle)
 
 
-    def getLabels(self, currentMicroClusters, currMicroIndex):
+    def getLabels(self, currentMicroClusters, currTimeIndex):
         macroClustersByTime = ndarraysFormCsvsGenerator(self.macroClustersFolder)
         labels = [-1] * len(currentMicroClusters)
         for microIndex in range(len(currentMicroClusters)):
             micro = currentMicroClusters[microIndex]
             microCircle = Circle(center=[micro[0], micro[1]], radius=micro[2])
-            currentMacroClusters = macroClustersByTime[currMicroIndex]['res']
+            currentMacroClusters = macroClustersByTime[currTimeIndex]['res']
             for macroIndex in range(len(currentMacroClusters)):
                 macro = currentMacroClusters[macroIndex]
                 macroCircle = Circle([macro[0], macro[1]], macro[2])

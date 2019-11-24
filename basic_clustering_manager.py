@@ -14,31 +14,31 @@ class BasicClusteringManager:
 
   def main(self):
       microClustersByTime = ndarraysFormCsvsGenerator(self.microClustersFolder)
-      for currMicroClustersIndex in range(len(microClustersByTime)):
-          currMicroClustersInfo = microClustersByTime[currMicroClustersIndex]
+      for currTimeIndex in range(len(microClustersByTime)):
+          currMicroClustersInfo = microClustersByTime[currTimeIndex]
           currentMicroClusters = currMicroClustersInfo['res']
           ax = plt.gca()
-          self.fillFigure(currentMicroClusters, ax, currMicroClustersIndex)
-          DBCVindex = self.calculateDBCV(currentMicroClusters, currMicroClustersIndex)
+          self.fillFigure(currentMicroClusters, ax, currTimeIndex)
+          DBCVindex = self.calculateDBCV(currentMicroClusters, currTimeIndex)
           self.plotFig(ax, DBCVindex)
 
 
-  def fillFigure(self, currentMicroClusters, ax):
+  def fillFigure(self, currentMicroClusters, ax, currTimeIndex):
       pass
 
 
-  def getLabels(self, currentMicroClusters, currMicroClustersIndex):
+  def getLabels(self, currentMicroClusters, currTimeIndex):
       pass
 
 
-  def xAndLabels(self, currentMicroClusters, currMicroClustersIndex):
+  def xAndLabels(self, currentMicroClusters, currTimeIndex):
     X = np.delete(currentMicroClusters, 2, 1)  # delete 3rd column of C
-    classes = self.getLabels(currentMicroClusters, currMicroClustersIndex)
+    classes = self.getLabels(currentMicroClusters, currTimeIndex)
     return (X, classes)
 
 
-  def calculateDBCV(self, currentMicroClusters, currMicroClustersIndex):
-      X, labels = self.xAndLabels(currentMicroClusters, currMicroClustersIndex)
+  def calculateDBCV(self, currentMicroClusters, currTimeIndex):
+      X, labels = self.xAndLabels(currentMicroClusters, currTimeIndex)
       try:
           score = validity_index(X=X, labels=labels, metric=euclidean, per_cluster_scores=True, )
           index = round(score[0], 2)
