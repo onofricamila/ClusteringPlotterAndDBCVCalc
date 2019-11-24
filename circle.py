@@ -17,7 +17,7 @@ class Circle():
 
 
     def contains(self, circle):
-        distance_squared = math.sqrt(
+        distance = math.sqrt(
             (circle.center[0] - self.center[0]) ** 2 +
             (circle.center[1] - self.center[1]) ** 2)
-        return self.radius  > (distance_squared + circle.radius)
+        return self.radius  > (distance + circle.radius)
