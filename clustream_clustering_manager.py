@@ -8,6 +8,7 @@ from circle import Circle
 class ClustreamClusteringManager(BasicClusteringManager):
     def __init__(self):
         super().__init__()
+        self.resourcesFolder = "/home/camila/Desktop/resources/"
         self.ownResourcesFolder = self.resourcesFolder + "clustream/"
         self.microClustersFolder = self.ownResourcesFolder + "micro/"
         self.macroClustersFolder = self.ownResourcesFolder + "macro/"
@@ -18,10 +19,10 @@ class ClustreamClusteringManager(BasicClusteringManager):
         macro = ndarraysFormCsvsGenerator(self.macroClustersFolder)
         x, y, radius = zip(*currentMicroClusters)
         for microIndex in range(len(x)):
-            rad = self.computeRadius(radius[microIndex])
+            rad, fill = self.computeRadius(radius[microIndex])
             color = self.chooseColor(labels[microIndex])
             # plot micro cluster
-            microCircle = plt.Circle((x[microIndex], y[microIndex]), rad, color=color, fill=False)
+            microCircle = plt.Circle((x[microIndex], y[microIndex]), rad, color=color, fill=fill)
             ax.add_patch(microCircle)
         currMacroClustersInfo = macro[currTimeIndex]
         currMacroClusters = currMacroClustersInfo['res']
@@ -51,9 +52,9 @@ class ClustreamClusteringManager(BasicClusteringManager):
     def computeRadius(self, rad):
         if rad == 0:
             # to see a point in the plot (if rad == 0, no circle will be plotted)
-            return 0.001
+            return (0.03, True)
         else:
-            return rad
+            return (rad, False)
 
 
     def chooseColor(self, label):
