@@ -8,7 +8,7 @@ from circle import Circle
 class ClustreamClusteringManager(BasicClusteringManager):
     def __init__(self):
         super().__init__()
-        self.resourcesFolder = "/home/camila/Desktop/resources/"
+        self.resourcesFolder = "/home/camila/Desktop/resources/" # TODO: REMOVE THIS LINE AFTER TESTS ARE DONE
         self.ownResourcesFolder = self.resourcesFolder + "clustream/"
         self.microClustersFolder = self.ownResourcesFolder + "micro/"
         self.macroClustersFolder = self.ownResourcesFolder + "macro/"
