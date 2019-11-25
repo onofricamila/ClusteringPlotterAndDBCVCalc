@@ -7,9 +7,10 @@ class DenstreamClusteringManager(BasicClusteringManager):
         super().__init__()
         self.ownResourcesFolder = self.resourcesFolder + "denstream/"
         self.microClustersFolder = self.ownResourcesFolder
+        self.name = "DenStream"
 
 
-    def fillFigure(self, currentMicroClusters, ax, currTimeIndex):
+    def addDataToAx(self, currentMicroClusters, ax, currTimeIndex):
         x, y, labels = zip(*currentMicroClusters)
         ax.scatter(x, y, s=10, c=labels, cmap="nipy_spectral")
 

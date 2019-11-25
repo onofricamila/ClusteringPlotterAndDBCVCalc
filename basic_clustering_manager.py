@@ -12,83 +12,78 @@ class BasicClusteringManager:
       self.resourcesFolder = "/home/camila/Desktop/TESIS/Github_Repo_TestingMOAOnlineClustering/src/resources/"
       self.ownResourcesFolder = ""
       self.microClustersFolder = ""
+      self.name = ""
 
 
   def main(self):
-      microClustersByTime = ndarraysFormCsvsGenerator(self.microClustersFolder)
-      # configure fig
-      snapshotsAmount = len(microClustersByTime)
+      snapshots = ndarraysFormCsvsGenerator(self.microClustersFolder)
+      snapshotsAmount = len(snapshots)
+      limit, (fig, axes) = self.createFigure(snapshotsAmount)
+      # r and c are used to refer to a given subplot
+      r = 0 # row index
+      c = 0 # col index
+      # for every row, we will fill every column
+      for snapshotIndex in range(snapshotsAmount):
+          snapshotInfo = snapshots[snapshotIndex]
+          currentMicroClusters = snapshotInfo['res']
+          currentTime = snapshotInfo['time']
+          ax = axes[r, c]
+          self.addDataToAx(currentMicroClusters, ax, snapshotIndex)
+          # calculate DBCV score for the current clustering result
+          DBCVscore = self.calculateDBCV(currentMicroClusters, snapshotIndex)
+          # add info and style
+          self.addStyleToAx(ax, DBCVscore, currentTime)
+          c += 1 # move to the next column
+          # check if all cols were filled, and a new row must be processed
+          if c == limit:
+              r = r+1
+              c = 0 # reset cols index
+      # show figure for current snapshot/clustering
+      self.addStyleToFig(fig)
+      plt.show()
+
+
+  def createFigure(self, snapshotsAmount):
       if snapshotsAmount % 2 == 0:
           denominator = 2
       else:
           denominator = 3
-      limit = ceil(snapshotsAmount/denominator)
+      limit = ceil(snapshotsAmount / denominator)
       rows = denominator
       cols = limit
-      fig, axes = plt.subplots(nrows=rows, ncols=cols, sharex=True, sharey=True,)
-      r = 0
-      c = 0
-      for currTimeIndex in range(snapshotsAmount):
-          currMicroClustersInfo = microClustersByTime[currTimeIndex]
-          currentMicroClusters = currMicroClustersInfo['res']
-          currentTime = currMicroClustersInfo['time']
-          ax = axes[r, c]
-          self.fillFigure(currentMicroClusters, ax, currTimeIndex)
-          DBCVindex = self.calculateDBCV(currentMicroClusters, currTimeIndex)
-
-          self.plotFig(ax, DBCVindex, currentTime)
-          c += 1
-          # org axes
-          if c == limit:
-              r = r+1
-              c = 0
-
-      # show
-      fig = plt.gcf()
-      fig.canvas.manager.window.showMaximized()
-      fig.canvas.set_window_title('Test')
-      plt.tight_layout()
-      plt.subplots_adjust(
-          top=0.951,
-          bottom=0.062,
-          left=0.012,
-          right=0.988,
-          hspace=0.249,
-          wspace=0.0
-      )
-      plt.show()
+      return limit, plt.subplots(nrows=rows, ncols=cols, sharex=True, sharey=True,)
 
 
-  def fillFigure(self, currentMicroClusters, ax, currTimeIndex):
+  def addDataToAx(self, currentMicroClusters, ax, currTimeIndex):
       pass
+
+
+  def calculateDBCV(self, currentMicroClusters, currTimeIndex):
+      X, labels = self.getDataReqByDBCV(currentMicroClusters, currTimeIndex)
+      try:
+          score = validity_index(X=X, labels=labels, metric=euclidean, per_cluster_scores=True, )
+          customScore = round(score[0], 2)
+      except ValueError as e:
+          print(' Failed to calculate DBCV Index: ' + str(e))
+          score = None
+          customScore = "---"
+      print(" --> score: ", score)
+      return customScore
+
+
+  def getDataReqByDBCV(self, currentMicroClusters, currTimeIndex):
+    X = np.delete(currentMicroClusters, 2, 1)  # delete 3rd column of C
+    classes = self.getLabels(currentMicroClusters, currTimeIndex)
+    return (X, classes)
 
 
   def getLabels(self, currentMicroClusters, currTimeIndex):
       pass
 
 
-  def xAndLabels(self, currentMicroClusters, currTimeIndex):
-    X = np.delete(currentMicroClusters, 2, 1)  # delete 3rd column of C
-    classes = self.getLabels(currentMicroClusters, currTimeIndex)
-    return (X, classes)
-
-
-  def calculateDBCV(self, currentMicroClusters, currTimeIndex):
-      X, labels = self.xAndLabels(currentMicroClusters, currTimeIndex)
-      try:
-          score = validity_index(X=X, labels=labels, metric=euclidean, per_cluster_scores=True, )
-          index = round(score[0], 2)
-      except ValueError as e:
-          print(' Failed to calculate DBCV Index: ' + str(e))
-          score = None
-          index = "---"
-      print(" --> score: ", score)
-      return index
-
-
-  def plotFig(self, ax, DBCVindex, t):
+  def addStyleToAx(self, ax, DBCVscore, t):
       # add DBCV score to axes
-      ax.annotate("t = "+ str(t)+ " | DBCV: " + str(DBCVindex), (0, 1.1), (0, 0), xycoords='axes fraction', textcoords='offset points', va='top', ha='left')
+      ax.annotate("t = " + str(t) + " | DBCV: " + str(DBCVscore), (0, 1.1), (0, 0), xycoords='axes fraction', textcoords='offset points', va='top', ha='left')
       # TODO: FOOTER WITH ALGO CONFIG?
       # TODO: SAVE FIG IN PARAMETRIZED FOLDER
       # fig.savefig('test');
@@ -96,6 +91,24 @@ class BasicClusteringManager:
       ax.set_ybound(lower=-2, upper=2)
       ax.grid()
       ax.set_aspect('equal', adjustable='box')
+
+
+  def addStyleToFig(self, fig):
+      fig.canvas.manager.window.showMaximized()
+      fig.canvas.set_window_title(self.name)
+      fig.tight_layout()
+      fig.subplots_adjust(
+          top=0.951,
+          bottom=0.062,
+          left=0.012,
+          right=0.988,
+          hspace=0.249,
+          wspace=0.0
+      )
+
+
+
+
 
 
 

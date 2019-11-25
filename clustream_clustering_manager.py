@@ -11,9 +11,10 @@ class ClustreamClusteringManager(BasicClusteringManager):
         self.ownResourcesFolder = self.resourcesFolder + "clustream/"
         self.microClustersFolder = self.ownResourcesFolder + "micro/"
         self.macroClustersFolder = self.ownResourcesFolder + "macro/"
+        self.name = "CluStream"
 
 
-    def fillFigure(self, currentMicroClusters, ax, currTimeIndex):
+    def addDataToAx(self, currentMicroClusters, ax, currTimeIndex):
         labels = self.getLabels(currentMicroClusters, currTimeIndex)
         macro = ndarraysFormCsvsGenerator(self.macroClustersFolder)
         x, y, radius = zip(*currentMicroClusters)
