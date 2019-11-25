@@ -4,7 +4,7 @@ import numpy as np
 from scipy.spatial.distance import euclidean
 
 from DBCV import validity_index
-from utils.ndarraysFormCsvsGenerator import ndarraysFormCsvsGenerator
+from ..data_fetcher import ndarraysFormCsvsGenerator
 import matplotlib.pyplot as plt
 
 class BasicClusteringManager:
