@@ -2,7 +2,7 @@ from math import ceil
 import numpy as np
 from scipy.spatial.distance import euclidean
 from utils.DBCV import validity_index
-from ..data_fetcher import ndarraysFormCsvsGenerator
+from ..data_fetcher import getClusteringResultsInFolder
 import matplotlib.pyplot as plt
 
 class BasicClusteringManager:
@@ -14,7 +14,7 @@ class BasicClusteringManager:
 
 
   def main(self):
-      microSnapshots = ndarraysFormCsvsGenerator(self.microClustersFolder)
+      microSnapshots = getClusteringResultsInFolder(self.microClustersFolder)
       snapshotsAmount = len(microSnapshots)
       limit, (fig, axes) = self.createFigure(snapshotsAmount)
       # r and c are used to refer to a given subplot

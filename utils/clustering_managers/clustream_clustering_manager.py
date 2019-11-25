@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from utils.clustering_managers.basic_clustering_manager import BasicClusteringManager
-from ..data_fetcher import ndarraysFormCsvsGenerator
+from ..data_fetcher import getClusteringResultsInFolder
 from utils.clustering_managers.helpers.circle import Circle
 
 class ClustreamClusteringManager(BasicClusteringManager):
@@ -19,7 +19,7 @@ class ClustreamClusteringManager(BasicClusteringManager):
         # labels are fetched to decide micro clusters color
         labels = self.getLabels(currentMicroClusters, snapshotIndex)
         # get all the macro clusters, which will be used to get the correct one for every micro clustering result
-        macroSnapshots = ndarraysFormCsvsGenerator(self.macroClustersFolder)
+        macroSnapshots = getClusteringResultsInFolder(self.macroClustersFolder)
         # extract micro clusters data
         x, y, radius = zip(*currentMicroClusters)
         # move all over the micro clusters 'x' coordinate values
@@ -45,7 +45,7 @@ class ClustreamClusteringManager(BasicClusteringManager):
 
     def getLabels(self, currentMicroClusters, snapshotIndex):
         # get all the macro clusters
-        macroClustersByTime = ndarraysFormCsvsGenerator(self.macroClustersFolder)
+        macroClustersByTime = getClusteringResultsInFolder(self.macroClustersFolder)
         # all micro clusters are initialized as outliers
         labels = [-1] * len(currentMicroClusters)
         # for every micro cluster in current snapshot

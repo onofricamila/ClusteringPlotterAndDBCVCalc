@@ -3,7 +3,7 @@ import os
 from sys import exit
 import csv
 
-def ndarraysFormCsvsGenerator(resourcesFolder):
+def getClusteringResultsInFolder(resourcesFolder):
     # try to get a list of all the files inside the specified folder
     try:
         files = sorted(os.listdir(resourcesFolder), key=lambda x: abs(0 - int(x.split('.')[0])),) # returns a sorted list with all the files names inside the specified folder
