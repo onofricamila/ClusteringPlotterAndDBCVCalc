@@ -2,7 +2,7 @@ import numpy as np
 from scipy.spatial.distance import euclidean
 
 from DBCV import validity_index
-from ndarraysFormCsvsGenerator import ndarraysFormCsvsGenerator
+from utils.ndarraysFormCsvsGenerator import ndarraysFormCsvsGenerator
 import matplotlib.pyplot as plt
 
 resourcesFolder = "/home/camila/Desktop/TESIS/Github_Repo_TestingMOAOnlineClustering/src/resources/denstream/"

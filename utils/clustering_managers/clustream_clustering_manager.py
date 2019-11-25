@@ -1,9 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-from basic_clustering_manager import BasicClusteringManager
-from ndarraysFormCsvsGenerator import ndarraysFormCsvsGenerator
-from circle import Circle
+from utils.clustering_managers.basic_clustering_manager import BasicClusteringManager
+from utils.ndarraysFormCsvsGenerator import ndarraysFormCsvsGenerator
+from utils.clustering_managers.helpers.circle import Circle
 
 class ClustreamClusteringManager(BasicClusteringManager):
     def __init__(self):

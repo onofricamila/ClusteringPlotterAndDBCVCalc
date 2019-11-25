@@ -1,6 +1,6 @@
 import numpy as np
 
-from basic_clustering_manager import BasicClusteringManager
+from utils.clustering_managers.basic_clustering_manager import BasicClusteringManager
 
 class DenstreamClusteringManager(BasicClusteringManager):
     def __init__(self):

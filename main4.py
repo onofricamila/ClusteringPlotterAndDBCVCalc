@@ -1,5 +1,5 @@
-from denstream_clustering_manager import DenstreamClusteringManager
-from clustream_clustering_manager import ClustreamClusteringManager
+from utils.clustering_managers.denstream_clustering_manager import DenstreamClusteringManager
+from utils.clustering_managers.clustream_clustering_manager import ClustreamClusteringManager
 
 d = DenstreamClusteringManager()
 #d.main()
