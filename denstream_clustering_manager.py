@@ -10,12 +10,12 @@ class DenstreamClusteringManager(BasicClusteringManager):
         self.name = "DenStream"
 
 
-    def addDataToAx(self, currentMicroClusters, ax, currTimeIndex):
+    def addDataToAx(self, currentMicroClusters, ax, snapshotIndex):
         x, y, labels = zip(*currentMicroClusters)
         ax.scatter(x, y, s=10, c=labels, cmap="nipy_spectral")
 
 
-    def getLabels(self, currentMicroClusters, currTimeIndex):
+    def getLabels(self, currentMicroClusters, snapshotIndex):
         x, y, labels = zip(*currentMicroClusters)
         classes = np.asarray(labels, dtype=int)  # tuple to array (for the metric) IMPORTANT: also needed dtype=int instead of float
         return classes

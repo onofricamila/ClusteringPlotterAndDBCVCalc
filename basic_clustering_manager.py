@@ -16,15 +16,15 @@ class BasicClusteringManager:
 
 
   def main(self):
-      snapshots = ndarraysFormCsvsGenerator(self.microClustersFolder)
-      snapshotsAmount = len(snapshots)
+      microSnapshots = ndarraysFormCsvsGenerator(self.microClustersFolder)
+      snapshotsAmount = len(microSnapshots)
       limit, (fig, axes) = self.createFigure(snapshotsAmount)
       # r and c are used to refer to a given subplot
       r = 0 # row index
       c = 0 # col index
       # for every row, we will fill every column
       for snapshotIndex in range(snapshotsAmount):
-          snapshotInfo = snapshots[snapshotIndex]
+          snapshotInfo = microSnapshots[snapshotIndex]
           currentMicroClusters = snapshotInfo['res']
           currentTime = snapshotInfo['time']
           ax = axes[r, c]
@@ -38,7 +38,7 @@ class BasicClusteringManager:
           if c == limit:
               r = r+1
               c = 0 # reset cols index
-      # show figure for current snapshot/clustering
+      # show figure for current clustering
       self.addStyleToFig(fig)
       plt.show()
 
@@ -54,12 +54,12 @@ class BasicClusteringManager:
       return limit, plt.subplots(nrows=rows, ncols=cols, sharex=True, sharey=True,)
 
 
-  def addDataToAx(self, currentMicroClusters, ax, currTimeIndex):
+  def addDataToAx(self, currentMicroClusters, ax, snapshotIndex):
       pass
 
 
-  def calculateDBCV(self, currentMicroClusters, currTimeIndex):
-      X, labels = self.getDataReqByDBCV(currentMicroClusters, currTimeIndex)
+  def calculateDBCV(self, currentMicroClusters, snapshotIndex):
+      X, labels = self.getDataReqByDBCV(currentMicroClusters, snapshotIndex)
       try:
           score = validity_index(X=X, labels=labels, metric=euclidean, per_cluster_scores=True, )
           customScore = round(score[0], 2)
@@ -71,13 +71,13 @@ class BasicClusteringManager:
       return customScore
 
 
-  def getDataReqByDBCV(self, currentMicroClusters, currTimeIndex):
+  def getDataReqByDBCV(self, currentMicroClusters, snapshotIndex):
     X = np.delete(currentMicroClusters, 2, 1)  # delete 3rd column of C
-    classes = self.getLabels(currentMicroClusters, currTimeIndex)
+    classes = self.getLabels(currentMicroClusters, snapshotIndex)
     return (X, classes)
 
 
-  def getLabels(self, currentMicroClusters, currTimeIndex):
+  def getLabels(self, currentMicroClusters, snapshotIndex):
       pass
 
 
