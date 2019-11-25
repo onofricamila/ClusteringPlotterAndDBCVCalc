@@ -1,6 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-
 from utils.clustering_managers.basic_clustering_manager import BasicClusteringManager
 from ..data_fetcher import ndarraysFormCsvsGenerator
 from utils.clustering_managers.helpers.circle import Circle

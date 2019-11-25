@@ -3,7 +3,7 @@ from sklearn.cluster import KMeans
 from sklearn.cluster import DBSCAN
 from scipy.spatial.distance import euclidean
 import collections
-from DBCV.validity import validity_index
+from utils.DBCV.validity import validity_index
 from sklearn.preprocessing import StandardScaler
 from data import datasets
 # set matplotlib backend to Qt5Agg to make figure window maximizer work

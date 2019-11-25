@@ -1,9 +1,7 @@
 from math import ceil
-
 import numpy as np
 from scipy.spatial.distance import euclidean
-
-from DBCV import validity_index
+from utils.DBCV import validity_index
 from ..data_fetcher import ndarraysFormCsvsGenerator
 import matplotlib.pyplot as plt
 
