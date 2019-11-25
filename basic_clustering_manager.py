@@ -1,3 +1,5 @@
+from math import floor, ceil
+
 import numpy as np
 from scipy.spatial.distance import euclidean
 
@@ -14,13 +16,47 @@ class BasicClusteringManager:
 
   def main(self):
       microClustersByTime = ndarraysFormCsvsGenerator(self.microClustersFolder)
-      for currTimeIndex in range(len(microClustersByTime)):
+      # configure fig
+      snapshotsAmount = len(microClustersByTime)
+      if snapshotsAmount % 2 == 0:
+          denominator = 2
+      else:
+          denominator = 3
+      limit = ceil(snapshotsAmount/denominator)
+      rows = denominator
+      cols = limit
+      fig, axes = plt.subplots(nrows=rows, ncols=cols, sharex=True, sharey=True,)
+      r = 0
+      c = 0
+      for currTimeIndex in range(snapshotsAmount):
           currMicroClustersInfo = microClustersByTime[currTimeIndex]
           currentMicroClusters = currMicroClustersInfo['res']
-          ax = plt.gca()
+          currentTime = currMicroClustersInfo['time']
+          ax = axes[r, c]
           self.fillFigure(currentMicroClusters, ax, currTimeIndex)
           DBCVindex = self.calculateDBCV(currentMicroClusters, currTimeIndex)
-          self.plotFig(ax, DBCVindex)
+
+          self.plotFig(ax, DBCVindex, currentTime)
+          c += 1
+          # org axes
+          if c == limit:
+              r = r+1
+              c = 0
+
+      # show
+      fig = plt.gcf()
+      fig.canvas.manager.window.showMaximized()
+      fig.canvas.set_window_title('Test')
+      plt.tight_layout()
+      plt.subplots_adjust(
+          top=0.951,
+          bottom=0.062,
+          left=0.012,
+          right=0.988,
+          hspace=0.249,
+          wspace=0.0
+      )
+      plt.show()
 
 
   def fillFigure(self, currentMicroClusters, ax, currTimeIndex):
@@ -50,21 +86,17 @@ class BasicClusteringManager:
       return index
 
 
-  def plotFig(self, ax, DBCVindex):
+  def plotFig(self, ax, DBCVindex, t):
       # add DBCV score to axes
-      ax.text(x=.99, y=.93, s="DBCV: " + str(DBCVindex), fontsize=10, transform=plt.gca().transAxes,
-              horizontalalignment='right')
+      ax.annotate("t = "+ str(t)+ " | DBCV: " + str(DBCVindex), (0, 1.1), (0, 0), xycoords='axes fraction', textcoords='offset points', va='top', ha='left')
       # TODO: FOOTER WITH ALGO CONFIG?
-      # fig.annotate('Something', (0, 0), (0, -20), xycoords='axes fraction', textcoords='offset points', va='top')
       # TODO: SAVE FIG IN PARAMETRIZED FOLDER
       # fig.savefig('test');
       ax.set_xbound(lower=-2, upper=2)  # TODO: |2| HARDCODED?
       ax.set_ybound(lower=-2, upper=2)
       ax.grid()
       ax.set_aspect('equal', adjustable='box')
-      f = plt.gcf()
-      f.canvas.manager.window.showMaximized()
-      plt.show()
+
 
 
 
