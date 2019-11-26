@@ -18,3 +18,6 @@ There is a `config` file, used to provide the _paths_ of the folders in which cl
      }
 }
 ```
+
+
+**The path to the json file must be specified in the config file.**
