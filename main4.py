@@ -2,7 +2,7 @@ from utils.clustering_managers.denstream_clustering_manager import DenstreamClus
 from utils.clustering_managers.clustream_clustering_manager import ClustreamClusteringManager
 
 d = DenstreamClusteringManager()
-#d.main()
+d.main()
 
 c = ClustreamClusteringManager()
 c.main()

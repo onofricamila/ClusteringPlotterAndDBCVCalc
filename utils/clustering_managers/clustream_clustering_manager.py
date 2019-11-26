@@ -3,14 +3,15 @@ import matplotlib.pyplot as plt
 from utils.clustering_managers.basic_clustering_manager import BasicClusteringManager
 from ..data_fetcher import getClusteringResultsInFolder
 from utils.clustering_managers.helpers.circle import Circle
+from config import getCluStreamName
 
 class ClustreamClusteringManager(BasicClusteringManager):
     def __init__(self):
         super().__init__()
-        self.ownResourcesFolder = self.resourcesFolder + "clustream/"
+        self.name = getCluStreamName()
+        self.ownResourcesFolder = self.clusteringResultsPath + self.name + '/'
         self.microClustersFolder = self.ownResourcesFolder + "micro/"
         self.macroClustersFolder = self.ownResourcesFolder + "macro/"
-        self.name = "CluStream"
 
 
     def addDataToAx(self, currentMicroClusters, ax, snapshotIndex):

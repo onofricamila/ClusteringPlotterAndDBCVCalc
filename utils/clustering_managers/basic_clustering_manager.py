@@ -4,10 +4,12 @@ from scipy.spatial.distance import euclidean
 from utils.DBCV import validity_index
 from ..data_fetcher import getClusteringResultsInFolder
 import matplotlib.pyplot as plt
+from config import getClusteringResultsPath, getFiguresPath
+import os
 
 class BasicClusteringManager:
   def __init__(self):
-      self.resourcesFolder = "/home/camila/Desktop/TESIS/Github_Repo_TestingMOAOnlineClustering/src/resources/"
+      self.clusteringResultsPath = getClusteringResultsPath()
       self.ownResourcesFolder = ""
       self.microClustersFolder = ""
       self.name = ""
@@ -38,6 +40,10 @@ class BasicClusteringManager:
               c = 0 # reset cols index
       # show figure for current clustering
       self.addStyleToFig(fig)
+      # TODO: FOOTER WITH ALGO CONFIG?
+      # TODO: SAVE FIG IN PARAMETRIZED FOLDER
+      # fig.savefig('test');
+      self.saveFig(fig)
       plt.show()
 
 
@@ -81,10 +87,7 @@ class BasicClusteringManager:
 
   def addStyleToAx(self, ax, DBCVscore, t):
       # add DBCV score to axes
-      ax.annotate("t = " + str(t) + " | DBCV: " + str(DBCVscore), (0, 1.1), (0, 0), xycoords='axes fraction', textcoords='offset points', va='top', ha='left')
-      # TODO: FOOTER WITH ALGO CONFIG?
-      # TODO: SAVE FIG IN PARAMETRIZED FOLDER
-      # fig.savefig('test');
+      ax.annotate("t = " + str(t) + " | DBCV: " + str(DBCVscore), (0, 1.1), (0, 0), xycoords='axes fraction', textcoords='offset points', va='top', ha='left', fontsize = 8)
       ax.set_xbound(lower=-2, upper=2)  # TODO: |2| HARDCODED?
       ax.set_ybound(lower=-2, upper=2)
       ax.grid()
@@ -103,6 +106,15 @@ class BasicClusteringManager:
           hspace=0.249,
           wspace=0.0
       )
+
+
+  def saveFig(self, fig):
+      folder = getFiguresPath() + self.name + '/'
+      if not os.path.exists(folder):
+          os.makedirs(folder)
+      fig.savefig(folder + 'image.png', dpi=300)
+
+
 
 
 

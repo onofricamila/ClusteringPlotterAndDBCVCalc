@@ -1,12 +1,13 @@
 import numpy as np
 from utils.clustering_managers.basic_clustering_manager import BasicClusteringManager
+from config import getDenStreamName
 
 class DenstreamClusteringManager(BasicClusteringManager):
     def __init__(self):
         super().__init__()
-        self.ownResourcesFolder = self.resourcesFolder + "denstream/"
+        self.name = getDenStreamName()
+        self.ownResourcesFolder = self.clusteringResultsPath + self.name + '/'
         self.microClustersFolder = self.ownResourcesFolder
-        self.name = "DenStream"
 
 
     def addDataToAx(self, currentMicroClusters, ax, snapshotIndex):
