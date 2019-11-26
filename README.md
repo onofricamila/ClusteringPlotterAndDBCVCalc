@@ -1,14 +1,5 @@
 # ClusteringPlotterAndDBCVCalc
-Here, clustering results stored in CSV files are taken and analysed, to plot them and also calculate the DBCV score for them. 
-
-# MOAOnlineClustering
-A few MOA stream clustering algorithms are run:
-* `CluStream`, and
-* `DenStream`
-
-Both taking data from a CSV file.
-
-Their results, are also stored in CSV files.
+Here, clustering results stored in CSV files are analysed: they are used to generate plots, and also calculate a corresponding DBCV score.
 
 ---
 
