@@ -95,7 +95,7 @@ class BasicClusteringManager:
 
   def addStyleToFig(self, fig, algoConfig):
       fig.canvas.manager.window.showMaximized()
-      # format algo config str to make it more readable 
+      # format algo config str to make it more readable
       formattedAlgoConfigStr = algoConfig.replace('__', ', ')
       fig.canvas.set_window_title(self.name + ': ' + formattedAlgoConfigStr)
       fig.tight_layout()
