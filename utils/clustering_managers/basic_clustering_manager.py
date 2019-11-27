@@ -38,10 +38,10 @@ class BasicClusteringManager:
           if c == limit:
               r = r+1
               c = 0 # reset cols index
-      self.addStyleToFig(fig)
-      # TODO: ALGO CONFIG?
-      string = getAlgoConfigStringFromFolder(self.ownResourcesFolder)
-      self.saveFig(fig, string)
+      # string representing algo config
+      algoConfigString = getAlgoConfigStringFromFolder(self.ownResourcesFolder)
+      self.addStyleToFig(fig, algoConfigString)
+      self.saveFig(fig, algoConfigString)
       # show figure for current clustering
       plt.show()
 
@@ -93,9 +93,11 @@ class BasicClusteringManager:
       ax.set_aspect('equal', adjustable='box')
 
 
-  def addStyleToFig(self, fig):
+  def addStyleToFig(self, fig, algoConfig):
       fig.canvas.manager.window.showMaximized()
-      fig.canvas.set_window_title(self.name)
+      # format algo config str to make it more readable 
+      formattedAlgoConfigStr = algoConfig.replace('__', ', ')
+      fig.canvas.set_window_title(self.name + ': ' + formattedAlgoConfigStr)
       fig.tight_layout()
       fig.subplots_adjust(
           top=0.951,

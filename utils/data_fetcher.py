@@ -41,6 +41,7 @@ def buildStringFromDict(dict):
         i += 1
     return string
 
+
 def getAlgoConfigStringFromFolder(algoConfigFolder):
     try:
         files = [fileName for fileName in os.listdir(algoConfigFolder) if fileName.endswith(".json")]
