@@ -2,7 +2,7 @@ from math import ceil
 import numpy as np
 from scipy.spatial.distance import euclidean
 from utils.DBCV import validity_index
-from ..data_fetcher import getClusteringResultsInFolder
+from ..data_fetcher import getClusteringResultsInFolder, getAlgoConfigInFolder
 import matplotlib.pyplot as plt
 from config import getClusteringResultsPath, getFiguresPath
 import os
@@ -38,12 +38,11 @@ class BasicClusteringManager:
           if c == limit:
               r = r+1
               c = 0 # reset cols index
-      # show figure for current clustering
       self.addStyleToFig(fig)
-      # TODO: FOOTER WITH ALGO CONFIG?
-      # TODO: SAVE FIG IN PARAMETRIZED FOLDER
-      # fig.savefig('test');
-      self.saveFig(fig)
+      # TODO: ALGO CONFIG?
+      string = getAlgoConfigInFolder(self.ownResourcesFolder)
+      self.saveFig(fig, string)
+      # show figure for current clustering
       plt.show()
 
 
@@ -108,11 +107,11 @@ class BasicClusteringManager:
       )
 
 
-  def saveFig(self, fig):
+  def saveFig(self, fig, name):
       folder = getFiguresPath() + self.name + '/'
       if not os.path.exists(folder):
           os.makedirs(folder)
-      fig.savefig(folder + 'image.png', dpi=300)
+      fig.savefig(folder + name + '.png', dpi=300)
 
 
 
