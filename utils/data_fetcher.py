@@ -27,28 +27,35 @@ def getClusteringResultsInFolder(resourcesFolder):
     return results
 
 
-def getAlgoConfigInFolder(algoConfigFolder):
+def buildStringFromDict(dict):
+    string = ""
+    i = 0 # for not adding an extra separator
+    for param, value in dict.items():
+        # param name and value together, separated form the others by '__'
+        block = param + str(value)
+        if i == 0:
+            separator = ''
+        else:
+            separator = '__'
+        string += separator + block
+        i += 1
+    return string
+
+def getAlgoConfigStringFromFolder(algoConfigFolder):
     try:
         files = [fileName for fileName in os.listdir(algoConfigFolder) if fileName.endswith(".json")]
     except BaseException as e:
         print("Could not open folder: " + str(e))
         exit()
+
     if len(files) > 1:
         print("[algoConfig] Expected one json file, found many.")
         exit()
+
     fileFullName = files[0]
     filePath = algoConfigFolder + fileFullName
-    string = ""
-    i = 0 # for not adding an extra separator
     with open(filePath) as algoConfigFile:
         jsonObj = json.load(algoConfigFile)
-        for param, value in jsonObj.items():
-            # param name and value together, separated form the others by '__'
-            block = param + str(value)
-            if i == 0:
-                separator = ''
-            else:
-                separator = '__'
-            string += separator + block
-            i += 1
-    return string
+        return buildStringFromDict(jsonObj)
+
+

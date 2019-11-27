@@ -2,7 +2,7 @@ from math import ceil
 import numpy as np
 from scipy.spatial.distance import euclidean
 from utils.DBCV import validity_index
-from ..data_fetcher import getClusteringResultsInFolder, getAlgoConfigInFolder
+from ..data_fetcher import getClusteringResultsInFolder, getAlgoConfigStringFromFolder
 import matplotlib.pyplot as plt
 from config import getClusteringResultsPath, getFiguresPath
 import os
@@ -40,7 +40,7 @@ class BasicClusteringManager:
               c = 0 # reset cols index
       self.addStyleToFig(fig)
       # TODO: ALGO CONFIG?
-      string = getAlgoConfigInFolder(self.ownResourcesFolder)
+      string = getAlgoConfigStringFromFolder(self.ownResourcesFolder)
       self.saveFig(fig, string)
       # show figure for current clustering
       plt.show()
