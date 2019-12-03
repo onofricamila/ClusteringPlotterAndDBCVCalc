@@ -3,6 +3,7 @@ import json
 clusteringResultsPath = None
 figuresPath = None
 algoNames = None
+timeSeriesToyDatasetName = None
 
 
 def fetchConfig():
@@ -10,6 +11,7 @@ def fetchConfig():
     global clusteringResultsPath
     global figuresPath
     global algoNames
+    global timeSeriesToyDatasetName
 
     configFilePath = "/home/camila/Desktop/TESIS/DATA/config.json"
     with open(configFilePath) as f:
@@ -18,6 +20,7 @@ def fetchConfig():
     clusteringResultsPath = data.get("clusteringResultsPath")
     figuresPath = data.get("figuresPath")
     algoNames = data.get("algoNames")
+    timeSeriesToyDatasetName = data.get("timeSeriesToyDatasetName")
 
 
 def getClusteringResultsPath():
@@ -34,6 +37,13 @@ def getFiguresPath():
     # else
     fetchConfig()
     return figuresPath
+
+def getTimeSeriesToyDatasetName():
+    if timeSeriesToyDatasetName is not None:
+        return timeSeriesToyDatasetName
+    # else
+    fetchConfig()
+    return timeSeriesToyDatasetName
 
 
 def getCluStreamName():

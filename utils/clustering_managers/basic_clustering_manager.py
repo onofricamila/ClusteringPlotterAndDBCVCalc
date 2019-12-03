@@ -4,12 +4,12 @@ from scipy.spatial.distance import euclidean
 from utils.DBCV import validity_index
 from ..data_fetcher import getClusteringResultsInFolder, getAlgoConfigStringFromFolder
 import matplotlib.pyplot as plt
-from config import getClusteringResultsPath, getFiguresPath
+from config import getClusteringResultsPath, getFiguresPath, getTimeSeriesToyDatasetName
 import os
 
 class BasicClusteringManager:
   def __init__(self):
-      self.clusteringResultsPath = getClusteringResultsPath()
+      self.clusteringResultsPath = getClusteringResultsPath() + getTimeSeriesToyDatasetName() + '/'
       self.ownResourcesFolder = ""
       self.microClustersFolder = ""
       self.name = ""
@@ -110,7 +110,7 @@ class BasicClusteringManager:
 
 
   def saveFig(self, fig, name):
-      folder = getFiguresPath() + self.name + '/'
+      folder = getFiguresPath() + getTimeSeriesToyDatasetName() + '/' + self.name + '/'
       if not os.path.exists(folder):
           os.makedirs(folder)
       fig.savefig(folder + name + '.png', dpi=300)
