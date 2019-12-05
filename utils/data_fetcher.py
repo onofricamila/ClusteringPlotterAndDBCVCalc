@@ -5,6 +5,21 @@ import os
 from sys import exit
 import csv
 
+def getClusteringResultForAlgo(resourcesFolder):
+    try:
+        files = [fileName for fileName in os.listdir(resourcesFolder) if fileName.endswith(".csv")]
+    except BaseException as e:
+        print("Could not open resources folder: " + str(e))
+        exit()
+    fileFullName = files[0]
+    filePath = resourcesFolder + fileFullName
+    ndarray = np.genfromtxt(filePath, delimiter=",", )  # header must be skipped
+    fileNameWithoutExtension = fileFullName.split(".")[0]
+    # append info to datasets
+    return ndarray
+
+
+
 def getClusteringResultsInFolder(resourcesFolder):
     # try to get a list of all the files inside the specified folder
     try:
@@ -25,6 +40,11 @@ def getClusteringResultsInFolder(resourcesFolder):
             {'time': fileNameWithoutExtension, 'res': ndarray}
         ))
     return results
+
+
+def getSubfoldersOf(d):
+    folders = list(filter(lambda x: os.path.isdir(os.path.join(d, x)) and "custom" not in x, os.listdir(d)))
+    return folders
 
 
 def buildStringFromDict(dict):
