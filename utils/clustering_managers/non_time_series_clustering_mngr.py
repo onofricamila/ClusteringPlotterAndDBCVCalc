@@ -1,14 +1,15 @@
 from math import ceil
 import matplotlib.pyplot as plt
-import numpy
+import numpy as np
 from scipy.spatial.distance import euclidean
-
 from config import getClusteringResultsPath, getFiguresPath
 from utils.DBCV import validity_index
-from utils.data_fetcher import getSubfoldersOf, getClusteringResultsInFolder, getClusteringResultForAlgo
+from utils.data_fetcher import getSubfoldersOf, getClusteringResultsInFolder, getClusteringResultForAlgo, \
+    getAlgoConfigStringFromFolder
+from utils.clustering_managers.basic_clustering_manager import BasicClusteringManager
 
 
-class NonTimeseriesClusteringMngr:
+class NonTimeseriesClusteringMngr(BasicClusteringManager):
   def __init__(self):
       self.clusteringResultsPath = getClusteringResultsPath()
 
@@ -25,6 +26,7 @@ class NonTimeseriesClusteringMngr:
       cantDatasets = len(datasetsNames)
       # create figure
       fig, axes = plt.subplots(nrows=cantDatasets, ncols=cantAlgorithms, sharex=True, sharey=True, )
+      figFolder = getFiguresPath()
       # iterate over the data sets
       for dNameIndx in range(cantDatasets):  # row index
           dName = datasetsNames[dNameIndx]
@@ -36,27 +38,26 @@ class NonTimeseriesClusteringMngr:
               X = getClusteringResultForAlgo(currFolder)
               ax = axes[dNameIndx, algoNameIndx]
               x,y,labels = zip(*X)
-              labels = numpy.asarray(labels, dtype=int)
+              labels = np.asarray(labels, dtype=int)
               ax.scatter(x, y, s=10, c=labels, cmap="nipy_spectral")
               # if it's the first clustering of an algorithm, print the algo name
               if dNameIndx == 0:
                   ax.set_title(algoName, size=18)
               # obtain scores
-              try:
-                  score = validity_index(X=X, labels=labels, metric=euclidean, per_cluster_scores=True, )
-              except ValueError as e:
-                  print(' Failed to calculate DBCV Index: ' + str(e))
-                  score = None
-              print(" --> score: ", score)
-              # add DBCV score to axes
-              ax.text(x=.99, y=.80, s="DBCV " + str(round(score[0], 2)), fontsize=10, transform=ax.transAxes,
-                      horizontalalignment='right')
-              ax.grid()
-              ax.set_xbound(lower=-2, upper=2)  # TODO: |2| HARDCODED?
-              ax.set_ybound(lower=-2, upper=2)
-      # show subplots
+              X = np.delete(X, 2, 1)  # delete 3rd column of C
+              DBCVscore = self.calculateDBCV(X, labels)
+              self.addStyleToAx(ax=ax, DBCVscore=DBCVscore)
+              # string representing algo config
+              # algoConfigString = getAlgoConfigStringFromFolder(self.ownResourcesFolder)
+              # self.addStyleToFig(fig, algoConfigString)
+      # only once ...
       fig.canvas.manager.window.showMaximized()
+      fig.tight_layout()
+
+      self.saveFig(fig, "non_time_series_clustering_res", figFolder)
+      # show figure for current clustering
       plt.show()
+
 
 d = NonTimeseriesClusteringMngr()
 d.main()
