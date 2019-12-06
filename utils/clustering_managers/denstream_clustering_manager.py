@@ -1,8 +1,8 @@
 import numpy as np
-from utils.clustering_managers.basic_clustering_manager import BasicClusteringManager
+from utils.clustering_managers.timeseries_clustering_manager import TimeSeriesClusteringManager
 from config import getDenStreamName
 
-class DenstreamClusteringManager(BasicClusteringManager):
+class DenstreamClusteringManager(TimeSeriesClusteringManager):
     def __init__(self):
         super().__init__()
         self.name = getDenStreamName()

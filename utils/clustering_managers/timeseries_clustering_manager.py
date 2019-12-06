@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 from config import getClusteringResultsPath, getFiguresPath, getTimeSeriesToyDatasetName
 import os
 
-class BasicClusteringManager:
+class TimeSeriesClusteringManager:
   def __init__(self):
       self.clusteringResultsPath = getClusteringResultsPath() + getTimeSeriesToyDatasetName() + '/'
       self.ownResourcesFolder = ""

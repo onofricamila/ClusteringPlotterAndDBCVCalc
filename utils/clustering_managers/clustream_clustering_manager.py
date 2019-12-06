@@ -1,11 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from utils.clustering_managers.basic_clustering_manager import BasicClusteringManager
+from utils.clustering_managers.timeseries_clustering_manager import TimeSeriesClusteringManager
 from ..data_fetcher import getClusteringResultsInFolder
 from utils.clustering_managers.helpers.circle import Circle
 from config import getCluStreamName
 
-class ClustreamClusteringManager(BasicClusteringManager):
+class ClustreamClusteringManager(TimeSeriesClusteringManager):
     def __init__(self):
         super().__init__()
         self.name = getCluStreamName()

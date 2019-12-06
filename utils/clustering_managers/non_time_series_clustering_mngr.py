@@ -8,7 +8,7 @@ from utils.DBCV import validity_index
 from utils.data_fetcher import getSubfoldersOf, getClusteringResultsInFolder, getClusteringResultForAlgo
 
 
-class NonTimeseriesDataClusteringMngr:
+class NonTimeseriesClusteringMngr:
   def __init__(self):
       self.clusteringResultsPath = getClusteringResultsPath()
 
@@ -58,5 +58,5 @@ class NonTimeseriesDataClusteringMngr:
       fig.canvas.manager.window.showMaximized()
       plt.show()
 
-d = NonTimeseriesDataClusteringMngr()
+d = NonTimeseriesClusteringMngr()
 d.main()
