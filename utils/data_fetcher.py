@@ -34,9 +34,12 @@ def getTimeSeriesClusteringResultsForAlgoInFolder(resourcesFolder):
     return results
 
 
-def getSubfoldersOf(d):
-    # TODO: see if no_structure data set is discarded or not
-    folders = list(filter(lambda x: os.path.isdir(os.path.join(d, x)) and "custom" not in x and "no_structure" not in x, os.listdir(d)))
+def getSubfoldersOf(rootFolder):
+    folders = filter(lambda x: os.path.isdir(os.path.join(rootFolder, x)), os.listdir(rootFolder))
+    # get rid of time series data set "custom circumferences"
+    # TODO: check if no_structure data set needs to be discarded or not
+    filteredFolders = filter(lambda x: "custom" not in x and "no_structure" not in x, folders)
+    folders = list(filteredFolders)
     return folders
 
 
