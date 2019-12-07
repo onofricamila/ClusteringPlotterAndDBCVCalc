@@ -1,15 +1,15 @@
 import json
 
-clusteringResultsPath = None
-figuresPath = None
+paths = None
 algoNames = None
 timeSeriesToyDatasetName = None
 
 
-def fetchConfig():
+def _fetchConfig():
     # we use the global key word to being able to change the values of the variables declared outside the function
     global clusteringResultsPath
     global figuresPath
+    global paths
     global algoNames
     global timeSeriesToyDatasetName
 
@@ -17,53 +17,55 @@ def fetchConfig():
     with open(configFilePath) as f:
         data = json.load(f)
     # fill variables
-    clusteringResultsPath = data.get("clusteringResultsPath")
-    figuresPath = data.get("figuresPath")
+    paths = data.get("paths")
     algoNames = data.get("algoNames")
     timeSeriesToyDatasetName = data.get("timeSeriesToyDatasetName")
 
 
-def getClusteringResultsPath():
-    if clusteringResultsPath is not None:
-        return clusteringResultsPath
-    # else
-    fetchConfig()
-    return clusteringResultsPath
+def _getPaths():
+    return paths
 
 
-def getFiguresPath():
-    if figuresPath is not None:
-        return figuresPath
-    # else
-    fetchConfig()
-    return figuresPath
+def _getAlgoNames():
+    return algoNames
 
-def getTimeSeriesToyDatasetName():
-    if timeSeriesToyDatasetName is not None:
-        return timeSeriesToyDatasetName
-    # else
-    fetchConfig()
+
+def _getTimeSeriesToyDatasetName():
     return timeSeriesToyDatasetName
 
 
-def getCluStreamName():
-    key = "clustream"
-    cluStreamName = algoNames.get(key)
-    if (cluStreamName != None):
-        return cluStreamName
+def _fetchElementIfNull(_getter):
+    element = _getter()
+    if (element != None):
+        return element
     # else
-    fetchConfig()
-    return algoNames.get(key)
+    _fetchConfig()
+    return _getter()
+
+
+def _getElementFromDict(key, _getter):
+    dict = _fetchElementIfNull(_getter)
+    return dict.get(key)
+
+
+def getClusteringResultsPath():
+    return _getElementFromDict(key="clusteringResultsPath", _getter=_getPaths)
+
+
+def getFiguresPath():
+    return _getElementFromDict(key="figuresPath", _getter=_getPaths)
+
+
+def getTimeSeriesToyDatasetName():
+    return _fetchElementIfNull(_getTimeSeriesToyDatasetName)
+
+
+def getCluStreamName():
+    return _getElementFromDict(key="clustream", _getter=_getAlgoNames)
 
 
 def getDenStreamName():
-    key = "denstream"
-    denStreamName = algoNames.get(key)
-    if (denStreamName != None):
-        return denStreamName
-    # else
-    fetchConfig()
-    return algoNames.get(key)
+    return _getElementFromDict(key="denstream", _getter=_getAlgoNames)
 
 
 
