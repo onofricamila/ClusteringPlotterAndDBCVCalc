@@ -6,7 +6,7 @@ from sys import exit
 def getWholeDatasetClusteringResultForAlgoInFolder(resourcesFolder):
     files = getFilesIsideFolder(resourcesFolder, "csv")
     # check if there is exactly one csv file
-    checkThereIsOnliyOneFile(files, section="[wholeDatasetClusteringRes]")
+    checkThereIsOnlyOneFile(files, section="[wholeDatasetClusteringRes]")
     # get the unique file inside folder
     fileFullName = files[0]
     filePath = resourcesFolder + fileFullName
@@ -58,7 +58,7 @@ def buildStringFromDict(dict):
 def getAlgoConfigStringFromFolder(algoConfigFolder):
     files = getFilesIsideFolder(algoConfigFolder, "json")
     # there has to be only one config file
-    checkThereIsOnliyOneFile(files, section="[algoConfig]")
+    checkThereIsOnlyOneFile(files, section="[algoConfig]")
     # open the file and return a dictionary simulating a json object
     fileFullName = files[0]
     filePath = algoConfigFolder + fileFullName
@@ -77,7 +77,7 @@ def getFilesIsideFolder(folder, fileType):
     return files
 
 
-def checkThereIsOnliyOneFile(files, section):
+def checkThereIsOnlyOneFile(files, section):
     if len(files) > 1:
         msg = "Expected one file, found many."
         print(section + " " + msg )
