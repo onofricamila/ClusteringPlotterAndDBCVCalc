@@ -1,49 +1,42 @@
 import json
-
 import numpy as np
 import os
 from sys import exit
-import csv
 
-def getClusteringResultForAlgo(resourcesFolder):
-    try:
-        files = [fileName for fileName in os.listdir(resourcesFolder) if fileName.endswith(".csv")]
-    except BaseException as e:
-        print("Could not open resources folder: " + str(e))
-        exit()
+def getWholeDatasetClusteringResultForAlgoInFolder(resourcesFolder):
+    files = getFilesIsideFolder(resourcesFolder, "csv")
+    # check if there is exactly one csv file
+    checkThereIsOnliyOneFile(files, section="[wholeDatasetClusteringRes]")
+    # get the unique file inside folder
     fileFullName = files[0]
     filePath = resourcesFolder + fileFullName
-    ndarray = np.genfromtxt(filePath, delimiter=",", )  # header must be skipped
-    fileNameWithoutExtension = fileFullName.split(".")[0]
-    # append info to datasets
+    # return a ndarray created from the file data
+    ndarray = np.genfromtxt(filePath, delimiter=",", )
     return ndarray
 
 
-
-def getClusteringResultsInFolder(resourcesFolder):
-    # try to get a list of all the files inside the specified folder
-    try:
-        files = [fileName for fileName in os.listdir(resourcesFolder) if fileName.endswith(".csv")]
-        sortedFiles = sorted(files, key=lambda x: abs(0 - int(x.split('.')[0])),) # returns a sorted list with all the files names inside the specified folder
-    except BaseException as e:
-        print("Could not open resources folder: " + str(e))
-        exit()
+def getTimeSeriesClusteringResultsForAlgoInFolder(resourcesFolder):
+    files = getFilesIsideFolder(resourcesFolder, "csv")
+    # need to sort the files according to the timestamp
+    sortedFiles = sorted(files, key=lambda x: abs(0 - int(x.split('.')[0])),) # returns a sorted list with all the files names inside the specified folder
     # for saving all the fetched data sets together
     results = []
     # iterate over the list of files
     for fileFullName in sortedFiles:
         filePath = resourcesFolder + fileFullName
-        ndarray = np.genfromtxt(filePath, delimiter=",", ) # header must be skipped
-        fileNameWithoutExtension = fileFullName.split(".")[0]
-        # append info to datasets
+        # create a ndarray with the data from the file
+        ndarray = np.genfromtxt(filePath, delimiter=",", )
+        time = fileFullName.split(".")[0] # time = fileNameWithoutExtention
+        # append curr clustering info to the list
         results.append((
-            {'time': fileNameWithoutExtension, 'res': ndarray}
+            {'time': time, 'res': ndarray}
         ))
     return results
 
 
 def getSubfoldersOf(d):
-    folders = list(filter(lambda x: os.path.isdir(os.path.join(d, x)) and "custom" not in x, os.listdir(d)))
+    # TODO: see if no_structure data set is discarded or not
+    folders = list(filter(lambda x: os.path.isdir(os.path.join(d, x)) and "custom" not in x and "no_structure" not in x, os.listdir(d)))
     return folders
 
 
@@ -63,20 +56,30 @@ def buildStringFromDict(dict):
 
 
 def getAlgoConfigStringFromFolder(algoConfigFolder):
-    try:
-        files = [fileName for fileName in os.listdir(algoConfigFolder) if fileName.endswith(".json")]
-    except BaseException as e:
-        print("Could not open folder: " + str(e))
-        exit()
-
-    if len(files) > 1:
-        print("[algoConfig] Expected one json file, found many.")
-        exit()
-
+    files = getFilesIsideFolder(algoConfigFolder, "json")
+    # there has to be only one config file
+    checkThereIsOnliyOneFile(files, section="[algoConfig]")
+    # open the file and return a dictionary simulating a json object
     fileFullName = files[0]
     filePath = algoConfigFolder + fileFullName
     with open(filePath) as algoConfigFile:
         jsonObj = json.load(algoConfigFile)
         return buildStringFromDict(jsonObj)
 
+
+def getFilesIsideFolder(folder, fileType):
+    fileExtention = '.' + fileType
+    try:
+        files = [fileName for fileName in os.listdir(folder) if fileName.endswith(fileExtention)]
+    except BaseException as e:
+        print("Could not open folder: " + str(e))
+        exit()
+    return files
+
+
+def checkThereIsOnliyOneFile(files, section):
+    if len(files) > 1:
+        msg = "Expected one file, found many."
+        print(section + " " + msg )
+        exit()
 

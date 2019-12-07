@@ -1,5 +1,5 @@
 import numpy as np
-from utils.clustering_managers.timeseries_clustering_manager import TimeSeriesClusteringManager
+from utils.clustering_managers.time_series_mngrs.timeseries_clustering_manager import TimeSeriesClusteringManager
 from config import getDenStreamName
 
 class DenstreamClusteringManager(TimeSeriesClusteringManager):

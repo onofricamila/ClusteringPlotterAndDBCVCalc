@@ -1,8 +1,20 @@
-from utils.clustering_managers.denstream_clustering_manager import DenstreamClusteringManager
-from utils.clustering_managers.clustream_clustering_manager import ClustreamClusteringManager
+from utils.clustering_managers.time_series_mngrs.denstream_clustering_manager import DenstreamClusteringManager
+from utils.clustering_managers.time_series_mngrs.clustream_clustering_manager import ClustreamClusteringManager
+from utils.clustering_managers.non_time_series_clustering_mngr import NonTimeseriesClusteringMngr
 
-d = DenstreamClusteringManager()
-d.main()
+# by running this file, you will get
 
-c = ClustreamClusteringManager()
-c.main()
+# time series ----------------------------------
+print("\n" + "DenStream")
+denStreamClusMngr = DenstreamClusteringManager()
+denStreamClusMngr.main()
+
+print("\n" + "CluStream")
+cluStreamClusMngr = ClustreamClusteringManager()
+cluStreamClusMngr.main()
+
+
+# non time series ----------------------------------
+print("\n" + "Non time series clustering")
+nonTimeSeriesClusMngr = NonTimeseriesClusteringMngr()
+nonTimeSeriesClusMngr.main()

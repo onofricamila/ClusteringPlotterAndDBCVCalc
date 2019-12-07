@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from utils.clustering_managers.timeseries_clustering_manager import TimeSeriesClusteringManager
-from ..data_fetcher import getClusteringResultsInFolder
+from utils.clustering_managers.time_series_mngrs.timeseries_clustering_manager import TimeSeriesClusteringManager
+from utils.data_fetcher import getTimeSeriesClusteringResultsForAlgoInFolder
 from utils.clustering_managers.helpers.circle import Circle
 from config import getCluStreamName
 
@@ -20,7 +20,7 @@ class ClustreamClusteringManager(TimeSeriesClusteringManager):
         # labels are fetched to decide micro clusters color
         labels = self.getLabels(currentMicroClusters, snapshotIndex)
         # get all the macro clusters, which will be used to get the correct one for every micro clustering result
-        macroSnapshots = getClusteringResultsInFolder(self.macroClustersFolder)
+        macroSnapshots = getTimeSeriesClusteringResultsForAlgoInFolder(self.macroClustersFolder)
         # extract micro clusters data
         x, y, radius = zip(*currentMicroClusters)
         # move all over the micro clusters 'x' coordinate values
@@ -46,7 +46,7 @@ class ClustreamClusteringManager(TimeSeriesClusteringManager):
 
     def getLabels(self, currentMicroClusters, snapshotIndex):
         # get all the macro clusters
-        macroClustersByTime = getClusteringResultsInFolder(self.macroClustersFolder)
+        macroClustersByTime = getTimeSeriesClusteringResultsForAlgoInFolder(self.macroClustersFolder)
         # all micro clusters are initialized as outliers
         labels = [-1] * len(currentMicroClusters)
         # for every micro cluster in current snapshot
