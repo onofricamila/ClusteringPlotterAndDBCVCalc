@@ -14,12 +14,11 @@ class NonTimeseriesClusteringMngr(BasicClusteringManager):
       # get the folders of the non time series datasets clustering results
       # inside them, ther is a subfolder for every algo used
       datasetsNames = getSubfoldersOf(self.clusteringResultsPath)
+      cantDatasets = len(datasetsNames)
+      # get how many algorithms were used (same quantity for every dataset)
       firstFolder = self.clusteringResultsPath + datasetsNames[0] + '/'
       algoNames = getSubfoldersOf(firstFolder)
-      print(datasetsNames)
-      # get how many algorithms were used (same quantity for every dataset)
       cantAlgorithms = len(algoNames)
-      cantDatasets = len(datasetsNames)
       # create figure
       fig, axes = plt.subplots(nrows=cantDatasets, ncols=cantAlgorithms, sharex=True, sharey=True)
       figFolder = getFiguresPath()
@@ -34,14 +33,12 @@ class NonTimeseriesClusteringMngr(BasicClusteringManager):
               X = getWholeDatasetClusteringResultForAlgoInFolder(currFolder)
               ax = axes[dNameIndx, algoNameIndx]
               # add data to axes
-              x,y,labels = zip(*X)
-              labels = np.asarray(labels, dtype=int)
-              ax.scatter(x, y, s=10, c=labels, cmap="nipy_spectral")
+              labels = self.addDataToAxAndRetLabels(X, ax)
               # if it's the first clustering of an algorithm, print the algo name
               if dNameIndx == 0:
                   ax.set_title(algoName, size=18)
               # obtain DBCV scores
-              X = np.delete(X, 2, 1)  # delete 3rd column of C
+              X = np.delete(X, 2, 1)  # delete 3rd column
               DBCVscore = self.calculateDBCV(X, labels)
               # add info and style
               self.addStyleToAx(ax=ax, DBCVscore=DBCVscore)
@@ -52,6 +49,14 @@ class NonTimeseriesClusteringMngr(BasicClusteringManager):
       self.saveFig(fig, "non_time_series_clustering_res", figFolder)
       # show figure for current clustering
       plt.show()
+
+
+  def addDataToAxAndRetLabels(self, X, ax):
+      # add data to axes
+      x, y, labels = zip(*X)
+      labels = np.asarray(labels, dtype=int)
+      ax.scatter(x, y, s=10, c=labels, cmap="nipy_spectral")
+      return labels
 
 
   def addStyleToAx(self, ax, DBCVscore):
