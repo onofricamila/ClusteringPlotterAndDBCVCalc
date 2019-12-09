@@ -62,9 +62,7 @@ class TimeSeriesClusteringManager(BasicClusteringManager):
 
 
   def getDataReqByDBCV(self, currentMicroClusters, snapshotIndex):
-    X = np.delete(currentMicroClusters, 2, 1)  # delete 3rd column of C
-    classes = self.getLabels(currentMicroClusters, snapshotIndex)
-    return (X, classes)
+      pass
 
 
   def getLabels(self, currentMicroClusters, snapshotIndex):
