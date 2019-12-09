@@ -20,7 +20,7 @@ class NonTimeseriesClusteringMngr(BasicClusteringManager):
       algoNames = getSubfoldersOf(firstFolder)
       cantAlgorithms = len(algoNames)
       # create figure
-      fig, axes = plt.subplots(nrows=cantDatasets, ncols=cantAlgorithms, sharex=True, sharey=True)
+      fig, axes = plt.subplots(nrows=cantDatasets, ncols=cantAlgorithms+1, sharex=True, sharey=True)
       figFolder = getFiguresPath()
       # iterate over the data sets
       for dNameIndx in range(cantDatasets):  # row index
@@ -36,12 +36,12 @@ class NonTimeseriesClusteringMngr(BasicClusteringManager):
               labels = self.addDataToAxAndRetLabels(X, ax)
               # if it's the first clustering of an algorithm, print the algo name
               if dNameIndx == 0:
-                  ax.set_title(algoName, size=18)
+                  ax.set_title(algoName, size=10, va="bottom")
               # obtain DBCV scores
               X = np.delete(X, 2, 1)  # delete 3rd column
               DBCVscore = self.calculateDBCV(X, labels)
               # add info and style
-              self.addStyleToAx(ax=ax, DBCVscore=DBCVscore)
+              self.addStyleToAx(ax=ax, DBCVscore=DBCVscore, labels=labels)
               # TODO: algos config?
       # only once ...
       fig.canvas.manager.window.showMaximized()
@@ -59,11 +59,18 @@ class NonTimeseriesClusteringMngr(BasicClusteringManager):
       return labels
 
 
-  def addStyleToAx(self, ax, DBCVscore):
+  def addStyleToAx(self, ax, DBCVscore, labels=None):
       # add DBCV score to axes
       msg = "DBCV: " + str(DBCVscore)
-      ax.annotate(msg, (0, 1.25), (0, 0), xycoords='axes fraction', textcoords='offset points', va='top', ha='left',
-                  fontsize=8)
+      if labels is not None:
+          # add outliers presence info
+          if -1 in labels:
+              boolOutliers = ", outliers regd."
+          else:
+              boolOutliers = ""
+          msg += str(boolOutliers)
+      ax.annotate(msg, (0, 1.125), (0, 0), xycoords='axes fraction', textcoords='offset points', va='top', ha='left',
+                  fontsize=6)
       # gral config
       ax.set_xbound(lower=-3, upper=3)  # TODO: |3| HARDCODED?
       ax.set_ybound(lower=-3, upper=3)

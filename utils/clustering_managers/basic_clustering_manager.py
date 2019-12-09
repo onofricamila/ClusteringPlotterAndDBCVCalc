@@ -24,8 +24,6 @@ class BasicClusteringManager:
             os.makedirs(folder)
         fig.savefig(folder + name + '.png', dpi=300)
 
-    def addStyleToAx(self, ax, DBCVscore, t):
-        pass
 
 
 

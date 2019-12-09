@@ -31,7 +31,7 @@ class TimeSeriesClusteringManager(BasicClusteringManager):
           X, labels = self.getDataReqByDBCV(currentMicroClusters, snapshotIndex)
           DBCVscore = self.calculateDBCV(X, labels)
           # add info and style
-          self.addStyleToAx(ax=ax, DBCVscore=DBCVscore, t=currentTime)
+          self.addStyleToAx(ax=ax, DBCVscore=DBCVscore, labels=labels, t=currentTime)
           c += 1 # move to the next column
           # check if all cols were filled, and a new row must be processed
           if c == limit:
@@ -84,12 +84,22 @@ class TimeSeriesClusteringManager(BasicClusteringManager):
           wspace=0.0
       )
 
-  def addStyleToAx(self, ax, DBCVscore, t):
+  def addStyleToAx(self, ax, DBCVscore, t, labels=None):
       # add DBCV score to axes
-      msg = "t = " + str(t) + " | " + "DBCV: " + str(DBCVscore)
+      msg = "t: " + str(t) + ", " + "DBCV: " + str(DBCVscore)
       ax.set_aspect('equal', adjustable='box')
-      ax.annotate(msg, (0, 1.1), (0, 0), xycoords='axes fraction', textcoords='offset points', va='top', ha='left',
-                  fontsize=8)
+      ax.annotate(msg, (0, 1.17), (0, 0), xycoords='axes fraction', textcoords='offset points', va='top', ha='left',
+                  fontsize=8) # FIXME: if the presence of outliers ann is no longer necessary, put (0, 1.1), (0, 0)
+      if labels is not None:
+          # add micro clusters and outliers presence info
+          cantMicro = len(labels)
+          if -1 in labels:
+              boolOutliers = ", outliers regd."
+          else:
+              boolOutliers = ""
+          msg = str(cantMicro) + " μc" + str(boolOutliers)
+          ax.annotate(msg, (0, 1.09), (0, 0), xycoords='axes fraction', textcoords='offset points', va='top', ha='left',
+                      fontsize=7)
       # gral settings
       ax.set_xbound(lower=-2, upper=2)  # TODO: |2| HARDCODED?
       ax.set_ybound(lower=-2, upper=2)
