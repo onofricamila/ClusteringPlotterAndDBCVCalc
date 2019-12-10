@@ -47,10 +47,7 @@ class TimeSeriesClusteringManager(BasicClusteringManager):
 
 
   def createFigure(self, snapshotsAmount):
-      if snapshotsAmount % 2 == 0:
-          denominator = 2
-      else:
-          denominator = 3
+      denominator = 3
       limit = ceil(snapshotsAmount / denominator)
       rows = denominator
       cols = limit
