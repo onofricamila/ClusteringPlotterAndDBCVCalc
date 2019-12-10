@@ -94,7 +94,8 @@ class TimeSeriesClusteringManager(BasicClusteringManager):
           # add micro clusters and outliers presence info
           cantMicro = len(labels)
           if -1 in labels:
-              boolOutliers = ", outliers regd."
+              cantOutliers = list(labels).count(-1)
+              boolOutliers = " ⇨ " + str(cantOutliers) + " outliers"
           else:
               boolOutliers = ""
           msg = str(cantMicro) + " μc" + str(boolOutliers)

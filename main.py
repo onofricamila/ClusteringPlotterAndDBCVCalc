@@ -13,8 +13,8 @@ print("\n" + "CluStream")
 cluStreamClusMngr = ClustreamClusteringManager()
 cluStreamClusMngr.main()
 
-
-# non time series ----------------------------------
-print("\n" + "Non time series clustering")
-nonTimeSeriesClusMngr = NonTimeseriesClusteringMngr()
-nonTimeSeriesClusMngr.main()
+#
+# # non time series ----------------------------------
+# print("\n" + "Non time series clustering")
+# nonTimeSeriesClusMngr = NonTimeseriesClusteringMngr()
+# nonTimeSeriesClusMngr.main()
