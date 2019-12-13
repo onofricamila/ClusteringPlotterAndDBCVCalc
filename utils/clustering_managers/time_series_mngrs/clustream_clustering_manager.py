@@ -19,10 +19,8 @@ class ClustreamClusteringManager(TimeSeriesClusteringManager):
         # labels are fetched to decide micro clusters color
         labels = self.getLabels(currentMicroClusters, snapshotIndex)
         # define colors to use
-        cmap = 'brg'
-        ns = plt.get_cmap(cmap)
-        norm = matplotlib.colors.Normalize(vmin=min(labels), vmax=max(labels))
         macroColor= 'red'
+        microColor= 'lightgreen'
         # get all the macro clusters, which will be used to get the correct one for every micro clustering result
         macroSnapshots = getTimeSeriesClusteringResultsForAlgoInFolder(self.macroClustersFolder)
         # extract micro clusters data
@@ -31,7 +29,7 @@ class ClustreamClusteringManager(TimeSeriesClusteringManager):
         for microIndex in range(len(x)):
             rad, fill = self.returnRadiusAndFillBool(radius[microIndex])
             # plot micro cluster
-            microCircle = plt.Circle((x[microIndex], y[microIndex]), rad, color=ns(norm(labels[microIndex])), fill=fill)
+            microCircle = plt.Circle((x[microIndex], y[microIndex]), rad, color=microColor, fill=fill)
             ax.add_patch(microCircle)
             # get the corresponding macro clusters
         currMacroClustersInfo = macroSnapshots[snapshotIndex]
