@@ -1,8 +1,9 @@
+import matplotlib
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.spatial.distance import euclidean
 from utils.clustering_managers.time_series_mngrs.timeseries_clustering_manager import TimeSeriesClusteringManager
 from utils.data_fetcher import getTimeSeriesClusteringResultsForAlgoInFolder
-from utils.clustering_managers.helpers.circle import Circle
 from config import getCluStreamName
 
 class ClustreamClusteringManager(TimeSeriesClusteringManager):
@@ -15,10 +16,13 @@ class ClustreamClusteringManager(TimeSeriesClusteringManager):
 
 
     def addDataToAx(self, currentMicroClusters, ax, snapshotIndex):
-        # define colors to use
-        microColor, outlierMicroColor, macroColor= self.defineColorsToUse()
         # labels are fetched to decide micro clusters color
         labels = self.getLabels(currentMicroClusters, snapshotIndex)
+        # define colors to use
+        cmap = 'brg'
+        ns = plt.get_cmap(cmap)
+        norm = matplotlib.colors.Normalize(vmin=min(labels), vmax=max(labels))
+        macroColor= 'red'
         # get all the macro clusters, which will be used to get the correct one for every micro clustering result
         macroSnapshots = getTimeSeriesClusteringResultsForAlgoInFolder(self.macroClustersFolder)
         # extract micro clusters data
@@ -26,9 +30,8 @@ class ClustreamClusteringManager(TimeSeriesClusteringManager):
         # move all over the micro clusters 'x' coordinate values
         for microIndex in range(len(x)):
             rad, fill = self.returnRadiusAndFillBool(radius[microIndex])
-            color = self.chooseColor(labels[microIndex], microColor, outlierMicroColor)
             # plot micro cluster
-            microCircle = plt.Circle((x[microIndex], y[microIndex]), rad, color=color, fill=fill)
+            microCircle = plt.Circle((x[microIndex], y[microIndex]), rad, color=ns(norm(labels[microIndex])), fill=fill)
             ax.add_patch(microCircle)
             # get the corresponding macro clusters
         currMacroClustersInfo = macroSnapshots[snapshotIndex]
@@ -40,28 +43,26 @@ class ClustreamClusteringManager(TimeSeriesClusteringManager):
             ax.add_patch(macroCircle)
 
 
-    def defineColorsToUse(self):
-        return 'lightgreen', 'black', 'red'
-
-
     def getLabels(self, currentMicroClusters, snapshotIndex):
         # get all the macro clusters
         macroClustersByTime = getTimeSeriesClusteringResultsForAlgoInFolder(self.macroClustersFolder)
-        # all micro clusters are initialized as outliers
-        labels = [-1] * len(currentMicroClusters)
+        labels = []
         # for every micro cluster in current snapshot
         for microIndex in range(len(currentMicroClusters)):
             micro = currentMicroClusters[microIndex]
-            microCircle = Circle(center=[micro[0], micro[1]], radius=micro[2])
+            microCenter = [micro[0], micro[1]]
             currentMacroClusters = macroClustersByTime[snapshotIndex]['res']
+            closestMacroId = -1
+            minDistance = float("inf")
             # for every macro cluster in current snapshot
             for macroIndex in range(len(currentMacroClusters)):
                 macro = currentMacroClusters[macroIndex]
-                macroCircle = Circle([macro[0], macro[1]], macro[2])
-                # if the micro cluster is inside the current macro cluster, that means it's inside that cluster
-                if macroCircle.contains(microCircle):
-                    labels[microIndex] = macroIndex  # macro index acts as label
-                    break # there is no need to check with other macro clusters (partitive algorithm)
+                macroCenter = [macro[0], macro[1]]
+                currDistance = euclidean(microCenter, macroCenter)
+                if currDistance < minDistance:
+                    minDistance = currDistance
+                    closestMacroId = macroIndex
+            labels.append(closestMacroId)  # macro index acts as label
         return np.asarray(labels)
 
 

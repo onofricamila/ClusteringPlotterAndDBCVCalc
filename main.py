@@ -5,9 +5,9 @@ from utils.clustering_managers.non_time_series_clustering_mngr import NonTimeser
 # by running this file, you will get
 
 # time series ----------------------------------
-print("\n" + "DenStream")
-denStreamClusMngr = DenstreamClusteringManager()
-denStreamClusMngr.main()
+# print("\n" + "DenStream")
+# denStreamClusMngr = DenstreamClusteringManager()
+# denStreamClusMngr.main()
 
 print("\n" + "CluStream")
 cluStreamClusMngr = ClustreamClusteringManager()
@@ -15,6 +15,6 @@ cluStreamClusMngr.main()
 
 
 # non time series ----------------------------------
-print("\n" + "Non time series clustering")
-nonTimeSeriesClusMngr = NonTimeseriesClusteringMngr()
-nonTimeSeriesClusMngr.main()
+# print("\n" + "Non time series clustering")
+# nonTimeSeriesClusMngr = NonTimeseriesClusteringMngr()
+# nonTimeSeriesClusMngr.main()
