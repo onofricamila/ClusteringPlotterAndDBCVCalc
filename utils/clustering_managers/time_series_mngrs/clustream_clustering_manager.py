@@ -72,13 +72,6 @@ class ClustreamClusteringManager(TimeSeriesClusteringManager):
             return (rad, False)
 
 
-    def chooseColor(self, label, microColor, outlierMicroColor):
-        # to denote outliers
-        if label == -1:
-            return outlierMicroColor
-        else:
-            return microColor
-
     def getDataReqByDBCV(self, currentMicroClusters, snapshotIndex):
         X = np.delete(currentMicroClusters, 2, 1)  # delete 3rd column of C
         classes = self.getLabels(currentMicroClusters, snapshotIndex)
