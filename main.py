@@ -9,12 +9,12 @@ from utils.clustering_managers.non_time_series_clustering_mngr import NonTimeser
 # denStreamClusMngr = DenstreamClusteringManager()
 # denStreamClusMngr.main()
 
-print("\n" + "CluStream")
-cluStreamClusMngr = ClustreamClusteringManager()
-cluStreamClusMngr.main()
+# print("\n" + "CluStream")
+# cluStreamClusMngr = ClustreamClusteringManager()
+# cluStreamClusMngr.main()
 
 
 # non time series ----------------------------------
-# print("\n" + "Non time series clustering")
-# nonTimeSeriesClusMngr = NonTimeseriesClusteringMngr()
-# nonTimeSeriesClusMngr.main()
+print("\n" + "Non time series clustering")
+nonTimeSeriesClusMngr = NonTimeseriesClusteringMngr()
+nonTimeSeriesClusMngr.main()

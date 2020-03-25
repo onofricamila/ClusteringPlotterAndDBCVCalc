@@ -20,7 +20,7 @@ class NonTimeseriesClusteringMngr(BasicClusteringManager):
       algoNames = getSubfoldersOf(firstFolder)
       cantAlgorithms = len(algoNames)
       # create figure
-      fig, axes = plt.subplots(nrows=cantDatasets, ncols=cantAlgorithms+1, sharex=True, sharey=True)
+      fig, axes = plt.subplots(nrows=cantDatasets, ncols=cantAlgorithms, sharex=True, sharey=True)
       figFolder = getFiguresPath()
       # iterate over the data sets
       for dNameIndx in range(cantDatasets):  # row index
