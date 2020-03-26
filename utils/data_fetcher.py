@@ -2,6 +2,8 @@ import json
 import numpy as np
 import os
 from sys import exit
+from config import _getTimeSeriesToyDatasetName
+
 
 def getWholeDatasetClusteringResultForAlgoInFolder(resourcesFolder):
     files = getFilesIsideFolder(resourcesFolder, "csv")
@@ -37,8 +39,7 @@ def getTimeSeriesClusteringResultsForAlgoInFolder(resourcesFolder):
 def getSubfoldersOf(rootFolder):
     folders = filter(lambda x: os.path.isdir(os.path.join(rootFolder, x)), os.listdir(rootFolder))
     # get rid of time series data set "custom circumferences"
-    # TODO: check if no_structure data set needs to be discarded or not
-    filteredFolders = filter(lambda x: "custom" not in x and "no_structure" not in x, folders)
+    filteredFolders = filter(lambda x: _getTimeSeriesToyDatasetName() not in x, folders)
     folders = list(filteredFolders)
     return folders
 
