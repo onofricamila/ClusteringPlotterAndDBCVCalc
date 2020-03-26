@@ -68,6 +68,10 @@ def getDenStreamName():
     return _getElementFromDict(key="denstream", _getter=_getAlgoNames)
 
 
+def getDycleeName():
+    return _getElementFromDict(key="dyclee", _getter=_getAlgoNames)
+
+
 
 
 
