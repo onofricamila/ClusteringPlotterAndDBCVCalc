@@ -325,7 +325,7 @@ def validity_index(X, labels, metric='euclidean',
     # we need clusters with at least 3 u clusters to compute the metric
     for l in set(labels):
         occurrencesOfCurrentLabel = counter.get(l)
-        if occurrencesOfCurrentLabel < 3:
+        if (l != -1) and (occurrencesOfCurrentLabel < 3): # we shouldn't get rid of outliers bc they are a few
             disposedClusters += 1
             boolArr = np.where(labels != l)
             labels = labels[boolArr]
@@ -339,7 +339,8 @@ def validity_index(X, labels, metric='euclidean',
     print(msg)
 
     # if there is only 1 final cluster, density separation cannot be compueted, so ...
-    if len(set(labels)) <= 1:
+    labelsExcludingNoise = {l for l in labels if l != -1} # -1 should not count as another cluster
+    if len(set(labelsExcludingNoise)) <= 1:
         raise ValueError("At least 2 macro clusters are required to compute the metric")
 
     core_distances = {}
