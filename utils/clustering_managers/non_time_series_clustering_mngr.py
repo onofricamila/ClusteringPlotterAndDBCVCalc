@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from config import getClusteringResultsPath, getFiguresPath
+from config import getClusteringResultsPath, getNonTimeSeriesFiguresPath
 from utils.data_fetcher import getSubfoldersOf, getWholeDatasetClusteringResultForAlgoInFolder
 from utils.clustering_managers.basic_clustering_manager import BasicClusteringManager
 
@@ -21,7 +21,7 @@ class NonTimeseriesClusteringMngr(BasicClusteringManager):
       cantAlgorithms = len(algoNames)
       # create figure
       fig, axes = plt.subplots(nrows=cantDatasets, ncols=cantAlgorithms, sharex=True, sharey=True)
-      figFolder = getFiguresPath()
+      figFolder = getNonTimeSeriesFiguresPath()
       # iterate over the data sets
       for dNameIndx in range(cantDatasets):  # row index
           dName = datasetsNames[dNameIndx]

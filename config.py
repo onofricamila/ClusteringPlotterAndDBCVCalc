@@ -56,6 +56,16 @@ def getFiguresPath():
     return _getElementFromDict(key="figuresPath", _getter=_getPaths)
 
 
+def getTimeSeriesFiguresPath():
+    timeSeriesSubPath = _getElementFromDict(key="timeSeriesSubPath", _getter=_getPaths)
+    return _getElementFromDict(key="figuresPath", _getter=_getPaths) + timeSeriesSubPath
+
+
+def getNonTimeSeriesFiguresPath():
+    nonTimeSeriesSubPath = _getElementFromDict(key="nonTimeSeriesSubPath", _getter=_getPaths)
+    return _getElementFromDict(key="figuresPath", _getter=_getPaths) + nonTimeSeriesSubPath
+
+
 def getTimeSeriesToyDatasetName():
     return _fetchElementIfNull(_getTimeSeriesToyDatasetName)
 

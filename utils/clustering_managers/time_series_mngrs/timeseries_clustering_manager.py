@@ -2,7 +2,7 @@ from math import ceil
 import numpy as np
 from utils.data_fetcher import getTimeSeriesClusteringResultsForAlgoInFolder, getAlgoConfigStringFromFolder
 import matplotlib.pyplot as plt
-from config import getClusteringResultsPath, getFiguresPath, getTimeSeriesToyDatasetName
+from config import getClusteringResultsPath, getTimeSeriesFiguresPath, getTimeSeriesToyDatasetName
 from utils.clustering_managers.basic_clustering_manager import BasicClusteringManager
 
 class TimeSeriesClusteringManager(BasicClusteringManager):
@@ -40,7 +40,7 @@ class TimeSeriesClusteringManager(BasicClusteringManager):
       # string representing algo config
       algoConfigString = getAlgoConfigStringFromFolder(self.ownResourcesFolder)
       self.addStyleToFig(fig, algoConfigString)
-      folder = getFiguresPath() + getTimeSeriesToyDatasetName() + '/' + self.name + '/'
+      folder = getTimeSeriesFiguresPath() + getTimeSeriesToyDatasetName() + '/' + self.name + '/'
       self.saveFig(fig, algoConfigString, folder)
       # show figure for current clustering
       plt.show()

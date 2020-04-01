@@ -14,7 +14,7 @@ from utils.clustering_managers.non_time_series_clustering_mngr import NonTimeser
 # cluStreamClusMngr = ClustreamClusteringManager()
 # cluStreamClusMngr.main()
 
-# print("\n" + "DyClee")
+print("\n" + "DyClee")
 dyCleeClusMngr = DycleeClusteringManager()
 dyCleeClusMngr.main()
 

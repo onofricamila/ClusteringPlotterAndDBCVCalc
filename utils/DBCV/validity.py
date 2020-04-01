@@ -317,8 +317,12 @@ def validity_index(X, labels, metric='euclidean',
     2014. Density-Based Clustering Validation. In SDM (pp. 839-847).
     """
 
-    #FIXME: this is for disposing final clusters with less than 3 u clusters
+    # FIXME: this is for a fair comparison between algorithms that find outliers and those that do not
+    boolArr = np.where(labels != -1)
+    labels = labels[boolArr] # all labels except for -1
+    X = X[boolArr] # all micro clusters which are not outliers
 
+    # FIXME: this is for disposing final clusters with less than 3 u clusters
     # dictionary with occurrences for every label (u clusters quantity for each macro cluster)
     counter = collections.Counter(labels)
     disposedClusters = 0
