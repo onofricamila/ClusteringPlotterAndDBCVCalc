@@ -6,11 +6,12 @@ from config import getClusteringResultsPath, getTimeSeriesFiguresPath, getTimeSe
 from utils.clustering_managers.basic_clustering_manager import BasicClusteringManager
 
 class TimeSeriesClusteringManager(BasicClusteringManager):
-  def __init__(self):
-      self.clusteringResultsPath = getClusteringResultsPath() + getTimeSeriesToyDatasetName() + '/'
-      self.ownResourcesFolder = ""
-      self.microClustersFolder = ""
-      self.name = ""
+  def __init__(self, dataContext, name):
+      clusteringResultsPath = getClusteringResultsPath() + getTimeSeriesToyDatasetName() + '/'
+      self.name = name
+      super().__init__(dataContext, clusteringResultsPath)
+      self.ownResourcesFolder = self.clusteringResultsPath + self.name + '/'
+      self.microClustersFolder = self.ownResourcesFolder
 
 
   def main(self):
@@ -99,8 +100,7 @@ class TimeSeriesClusteringManager(BasicClusteringManager):
           ax.annotate(msg, (0, 1.09), (0, 0), xycoords='axes fraction', textcoords='offset points', va='top', ha='left',
                       fontsize=7)
       # gral settings
-      ax.set_xbound(lower=-2, upper=2)  # TODO: |2| HARDCODED?
-      ax.set_ybound(lower=-2, upper=2)
+      self.setAxBoundaries(ax)
       ax.grid()
 
 

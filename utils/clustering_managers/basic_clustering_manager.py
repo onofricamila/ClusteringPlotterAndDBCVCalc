@@ -3,8 +3,9 @@ from utils.DBCV import validity_index
 import os
 
 class BasicClusteringManager:
-    def __init__(self):
-        self.clusteringResultsPath = ""
+    def __init__(self, dataContext, clusteringResultsPath):
+        self.clusteringResultsPath = clusteringResultsPath
+        self.dataContext = dataContext
 
 
     def calculateDBCV(self, X, labels):
@@ -23,6 +24,13 @@ class BasicClusteringManager:
         if not os.path.exists(folder):
             os.makedirs(folder)
         fig.savefig(folder + name + '.png', dpi=300)
+
+
+    def setAxBoundaries(self, ax):
+        xbound = self.dataContext[0]
+        ybound = self.dataContext[1]
+        ax.set_xbound(lower=xbound.minimun, upper=xbound.maximun)
+        ax.set_ybound(lower=ybound.minimun, upper=ybound.maximun)
 
 
 

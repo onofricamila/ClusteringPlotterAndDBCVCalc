@@ -6,11 +6,10 @@ from utils.data_fetcher import getTimeSeriesClusteringResultsForAlgoInFolder
 from config import getCluStreamName
 
 class ClustreamClusteringManager(TimeSeriesClusteringManager):
-    def __init__(self):
-        super().__init__()
-        self.name = getCluStreamName()
-        self.ownResourcesFolder = self.clusteringResultsPath + self.name + '/'
-        self.microClustersFolder = self.ownResourcesFolder + "micro/"
+    def __init__(self, dataContext):
+        name = getCluStreamName()
+        super().__init__(dataContext, name)
+        self.microClustersFolder = self.ownResourcesFolder + "micro/" # different than the other algorithms - bc of macro clusters
         self.macroClustersFolder = self.ownResourcesFolder + "macro/"
 
 

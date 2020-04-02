@@ -6,9 +6,9 @@ from utils.clustering_managers.basic_clustering_manager import BasicClusteringMa
 
 
 class NonTimeseriesClusteringMngr(BasicClusteringManager):
-  def __init__(self):
-      self.clusteringResultsPath = getClusteringResultsPath()
-
+  def __init__(self, dataContext):
+      clusteringResultsPath = getClusteringResultsPath()
+      super().__init__(dataContext, clusteringResultsPath)
 
   def main(self):
       # get the folders of the non time series datasets clustering results
@@ -72,6 +72,5 @@ class NonTimeseriesClusteringMngr(BasicClusteringManager):
       ax.annotate(msg, (0, 1.125), (0, 0), xycoords='axes fraction', textcoords='offset points', va='top', ha='left',
                   fontsize=6)
       # gral config
-      ax.set_xbound(lower=-3, upper=3)  # TODO: |3| HARDCODED?
-      ax.set_ybound(lower=-3, upper=3)
+      self.setAxBoundaries(ax)
       ax.grid()

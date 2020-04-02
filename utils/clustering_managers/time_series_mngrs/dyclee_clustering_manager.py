@@ -7,11 +7,9 @@ from utils.data_fetcher import getTimeSeriesClusteringResultsForAlgoInFolder
 from config import getDycleeName
 
 class DycleeClusteringManager(TimeSeriesClusteringManager):
-    def __init__(self):
-        super().__init__()
-        self.name = getDycleeName()
-        self.ownResourcesFolder = self.clusteringResultsPath + self.name + '/'
-        self.microClustersFolder = self.ownResourcesFolder
+    def __init__(self, dataContext):
+        name = getDycleeName()
+        super().__init__(dataContext, name)
 
 
     def addDataToAx(self, currentMicroClusters, ax, snapshotIndex):

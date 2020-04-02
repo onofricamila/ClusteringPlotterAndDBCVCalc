@@ -5,11 +5,9 @@ from config import getDenStreamName
 import matplotlib.pyplot as plt
 
 class DenstreamClusteringManager(TimeSeriesClusteringManager):
-    def __init__(self):
-        super().__init__()
-        self.name = getDenStreamName()
-        self.ownResourcesFolder = self.clusteringResultsPath + self.name + '/'
-        self.microClustersFolder = self.ownResourcesFolder
+    def __init__(self, dataContext):
+        name = getDenStreamName()
+        super().__init__(dataContext, name)
 
 
     def addDataToAx(self, currentMicroClusters, ax, snapshotIndex):
