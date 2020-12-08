@@ -8,6 +8,7 @@ from utils.clustering_managers.basic_clustering_manager import BasicClusteringMa
 class NonTimeseriesClusteringMngr(BasicClusteringManager):
   def __init__(self, dataContext):
       clusteringResultsPath = getClusteringResultsPath()
+      print('clusteringResultsPath', clusteringResultsPath)
       super().__init__(dataContext, clusteringResultsPath)
 
   def main(self):
@@ -19,6 +20,10 @@ class NonTimeseriesClusteringMngr(BasicClusteringManager):
       firstFolder = self.clusteringResultsPath + datasetsNames[0] + '/'
       algoNames = getSubfoldersOf(firstFolder)
       cantAlgorithms = len(algoNames)
+      print('cantAlgorithms', cantAlgorithms)
+      print('datasetsNames', datasetsNames)
+      print('firstFolder', firstFolder)
+      print('algoNames', algoNames)
       # create figure
       fig, axes = plt.subplots(nrows=cantDatasets, ncols=cantAlgorithms, sharex=True, sharey=True)
       figFolder = getNonTimeSeriesFiguresPath()

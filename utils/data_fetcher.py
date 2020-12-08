@@ -39,7 +39,7 @@ def getTimeSeriesClusteringResultsForAlgoInFolder(resourcesFolder):
 def getSubfoldersOf(rootFolder):
     folders = filter(lambda x: os.path.isdir(os.path.join(rootFolder, x)), os.listdir(rootFolder))
     # get rid of time series data set "custom circumferences"
-    filteredFolders = filter(lambda x: _getTimeSeriesToyDatasetName() not in x, folders)
+    filteredFolders = filter(lambda x: x not in ["california1", "californiaAll", "custom_circumferences", "taxiMovementConcatenated"], folders) # _getTimeSeriesToyDatasetName() not in x
     folders = list(filteredFolders)
     return folders
 
